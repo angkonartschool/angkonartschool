@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Notice | Angkon Art School</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {background:#f8faff;font-family:'Segoe UI',Arial,sans-serif;margin:0;}
+    .container {max-width:350px;margin:56px auto;padding:38px 10px 38px 10px;background:#fff;border-radius:14px;box-shadow:0 5px 22px #99c4e62c;text-align:center;}
+    .title {font-size:1.22em;font-weight:900;color:#1865d0;margin-bottom:18px;}
+    .view-btn {
+      background:linear-gradient(90deg,#2bd4ef 60%,#ffd6ed 121%);
+      color:#1865d0;font-weight:800;font-size:1.11em;
+      border:none;border-radius:10px;padding:16px 40px;cursor:pointer;
+      box-shadow:0 2px 13px #2bd4ef13;transition:.15s;
+      outline:none;letter-spacing:.03em;
+      animation:shinebtn 2.9s infinite 2.2s;
+    }
+    .view-btn:hover {background:linear-gradient(90deg,#ffd6ed 60%,#2bd4ef 120%);color:#d11b5f;}
+    @keyframes shinebtn {
+      0% {box-shadow:0 0 0 #ffd6ed;}
+      50% {box-shadow:0 0 13px #2bd4ef6c;}
+      100% {box-shadow:0 0 0 #ffd6ed;}
+    }
+    #modalBg {display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(33,49,75,0.15);}
+    #modalImgWrap {position:fixed;z-index:10000;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;}
+    #modalImg {max-width:98vw;max-height:92vh;border-radius:13px;box-shadow:0 10px 34px #1865d03a;}
+    #modalBack {position:absolute;top:21px;left:16px;padding:10px 28px;background:#e9eafd;color:#d11b5f;font-weight:900;font-size:1.09em;border:none;border-radius:10px;cursor:pointer;box-shadow:0 1.5px 10px #d11b5f11;}
+    #modalBack:hover {background:#d11b5f;color:#fff;}
+    @media (max-width:520px){
+      #modalImg{max-width:99vw;max-height:72vh;}
+      .container {padding:12px 1px 18px 1px;}
+      #modalBack{padding:8px 14px;font-size:.98em;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">Notice</div>
+    <button class="view-btn" onclick="showNotice('notice.jpg')">View</button>
+  </div>
+  <div id="modalBg">
+    <div id="modalImgWrap">
+      <button id="modalBack" onclick="closeNotice()">Back</button>
+      <img id="modalImg" src="" alt="Notice">
+    </div>
+  </div>
+  <script>
+    function showNotice(imgsrc) {
+      document.getElementById('modalImg').src = imgsrc;
+      document.getElementById('modalBg').style.display = 'block';
+    }
+    function closeNotice() {
+      document.getElementById('modalBg').style.display = 'none';
+      document.getElementById('modalImg').src = '';
+    }
+  </script>
+</body>
+</html>

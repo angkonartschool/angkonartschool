@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sunday Class | Angkon Art School</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {background:#fbfafc;font-family:'Segoe UI',Arial,sans-serif;margin:0;}
+    .container {max-width:370px;margin:50px auto;padding:28px 17px 30px 17px;background:#fff;border-radius:16px;box-shadow:0 8px 30px #bdbed71a;text-align:center;}
+    .title {font-size:1.36em;font-weight:900;color:#2b55cf;margin-bottom:11px;}
+    .subtitle {font-size:1.08em;color:#8a186e;font-weight:700;}
+    #timer {margin:14px 0 18px 0;font-size:1.7em;font-weight:900;color:#b95fb9;letter-spacing:.06em;}
+    #joinBtn {margin-top:17px;padding:13px 34px;background:linear-gradient(98deg,#25d366 76%,#1865d0);color:#fff;border:none;border-radius:12px;font-weight:800;font-size:1.15em;box-shadow:0 2px 14px #25d36622;cursor:pointer;transition:.14s;}
+    #joinBtn.live {animation:pulseBtn .7s infinite;}
+    @keyframes pulseBtn {
+      0% {box-shadow:0 0 0 #1865d077;}
+      50% {box-shadow:0 0 14px #25d36655;}
+      100% {box-shadow:0 0 0 #1865d077;}
+    }
+    .note {margin-top:13px;font-size:.98em;color:#294d7c;}
+    /* Password Modal */
+    #passModalBg {display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(44,12,84,0.14);}
+    #passModalCard {position:fixed;z-index:10000;top:49%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:16px;box-shadow:0 5px 36px #1865d085;padding:21px 19px;text-align:center;}
+    #modalTitle {font-size:1.12em;font-weight:700;color:#1865d0;margin-bottom:13px;}
+    #passInput {padding:9px 12px;border:1.5px solid #e2dbfc;border-radius:7px;font-size:1.07em;width:80%;margin-bottom:10px;}
+    #modalBtn {padding:11px 0;background:linear-gradient(91deg,#25d366 76%,#1865d0);color:#fff;border:none;border-radius:9px;font-weight:800;font-size:1.09em;width:89%;margin-top:4px;cursor:pointer;transition:.13s;box-shadow:0 2px 11px #25d36622;}
+    #modalBtn:active {transform:scale(.97);}
+    #passErr {color:#d42c39;font-weight:600;font-size:1em;margin-top:6px;display:none;}
+    #modalClose {margin-top:11px;background:none;border:none;color:#b2225b;font-size:2em;font-weight:700;cursor:pointer;}
+    @media (max-width:420px){
+      .container{padding:11px 5px 19px 5px;} #passModalCard{padding:11px 6px 15px 6px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">Next Online Class</div>
+    <div class="subtitle">Every Sunday · 11:30 AM · Google Meet</div>
+    <div id="timer">Loading...</div>
+    <button id="joinBtn" onclick="openModal()">Join Google Meet</button>
+    <div class="note">Only enrolled students with password can join.<br>Holiday & schedule at notice page.</div>
+  </div>
+  <!-- Password Modal -->
+  <div id="passModalBg" onclick="closeModal()">
+    <div id="passModalCard" onclick="event.stopPropagation()">
+      <div id="modalTitle">Enter Google Meet Password</div>
+      <input id="passInput" type="password" placeholder="Type password here" autocomplete="off" />
+      <button id="modalBtn" onclick="checkPass()">Enter</button>
+      <div id="passErr"></div>
+      <button id="modalClose" onclick="closeModal()">&times;</button>
+    </div>
+  </div>
+  <script>
+    // Timer for next Sunday 11:30am
+    function getNextSunday1130() {
+      const now = new Date();
+      let nextClass = new Date(now);
+      nextClass.setDate(now.getDate() + ((7-now.getDay())%7||7));
+      nextClass.setHours(11,30,0,0);
+      if(now>nextClass) nextClass.setDate(nextClass.getDate()+7);
+      return nextClass;
+    }
+    function updateTimer() {
+      const now = new Date(), nextClass = getNextSunday1130(), diff = nextClass - now;
+      const btn = document.getElementById('joinBtn');
+      if(diff<=0) {
+        document.getElementById('timer').innerText = "Class is Live!";
+        btn.className = "live";
+        btn.disabled = false;
+        return;
+      }
+      const hrs = Math.floor(diff/(1000*60*60)), min = Math.floor((diff/(1000*60))%60), sec = Math.floor((diff/1000)%60);
+      document.getElementById('timer').innerText = `${hrs}h ${min}m ${sec}s`;
+      btn.className = "";
+      btn.disabled = false;
+    }
+    setInterval(updateTimer, 1000); updateTimer();
+
+    // Password modal show/hide
+    function openModal() {
+      document.getElementById('passModalBg').style.display='block';
+      document.getElementById('passInput').value = "";
+      document.getElementById('passErr').style.display='none';
+      document.getElementById('passModalCard').style.borderColor='#fff';
+    }
+    function closeModal() {
+      document.getElementById('passModalBg').style.display='none';
+      document.getElementById('passErr').style.display='none';
+      document.getElementById('passInput').value = '';
+      document.getElementById('passModalCard').style.borderColor='#fff';
+    }
+    function checkPass() {
+      let input = document.getElementById('passInput').value.trim();
+      let correct = "MEETART";
+      let errBox = document.getElementById('passErr');
+      let card = document.getElementById('passModalCard');
+      if(input.replace(/\s+/g,'').toUpperCase()===correct) {
+        card.style.borderColor="#25d366";
+        setTimeout(()=>{ closeModal(); window.open("https://meet.google.com/mrt-bzth-mnb",'_blank') }, 300);
+      } else {
+        errBox.innerText="Incorrect! Try again.";
+        errBox.style.display='block';
+        card.style.transition='0.15s';
+        card.style.transform='translateX(-9px)';
+        setTimeout(()=>{card.style.transform='translateX(8px)'},60);
+        setTimeout(()=>{card.style.transform='translateX(0)'},140);
+        card.style.borderColor="#d42c39";
+      }
+    }
+  </script>
+</body>
+</html>

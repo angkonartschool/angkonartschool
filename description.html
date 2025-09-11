@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>About & FAQ | Angkon Art School</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {background:#fff7fa;font-family:'Segoe UI',Arial,sans-serif;margin:0;}
+    .container {max-width:490px;margin:30px auto 0 auto;padding:21px 8px 28px 8px;border-radius:15px;box-shadow:0 3px 18px #b1b2b247;background:#fff;}
+    .about-title {font-size:1.38em;font-weight:900;color:#D11B5F;display:flex;align-items:center;gap:7px;margin-bottom:11px;}
+    .about-text {font-size:1.03em;color:#3d0833;font-weight:500;line-height:1.58;margin-bottom:18px;}
+    .section-label {font-weight:700;font-size:1.12em;color:#1865d0;margin:21px 0 8px 0;}
+    .faq-group {border-radius:10px;background:#f7e5ff;padding:13px 11px;box-shadow:0 1.2px 7px #e1bee733;}
+    .faq-lang-tabs {display:flex;gap:10px;margin-bottom:9px;justify-content:center;}
+    .faq-lang-btn {font-weight:700;padding:3px 13px 3px 13px;background:#ead2fd;border:none;cursor:pointer;border-radius:8px;color:#391867;font-size:1em;transition:.11s;}
+    .faq-lang-btn.active {background:#bc39b9;color:#fff;}
+    .faq-q {margin:.3em 0;font-weight:600;color:#912866;font-size:1.05em;cursor:pointer;padding:9px 10px;border-radius:8px;transition:.11s;background:#fff9fb;border:1px solid #e9b1ed;}
+    .faq-q:hover {background:#eed6f7;}
+    .faq-a {display:none;font-size:.98em;color:#26526b;font-weight:500;margin:6px 0 11px 0;padding:7px 14px 9px 14px;border-radius:7px;background:#f6faff;border-left:3px solid #bc39b9;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="about-title">
+      <i class="fa fa-paint-brush"></i> About Angkon Art School
+    </div>
+    <div class="about-text">
+      Angkon Art School, under the guidance of Senior Group Teacher Pinaki Chakraborty and Junior Group Teacher Hritodeep Chakraborty, is committed to delivering comprehensive and structured education in fine arts, fostering both technical proficiency and creative exploration. With a curriculum that balances classical foundations and contemporary approaches, the school provides an inspiring learning environment where students of all levels are encouraged to refine their skills, expand their imagination, and cultivate a deep appreciation for artistic expression.
+    </div>
+    <div class="section-label"><i class="fa fa-lightbulb"></i> FAQs</div>
+    <div class="faq-group">
+      <div class="faq-lang-tabs">
+        <button class="faq-lang-btn active" onclick="setFaqLang(0)">বাংলা</button>
+        <button class="faq-lang-btn" onclick="setFaqLang(1)">English</button>
+        <button class="faq-lang-btn" onclick="setFaqLang(2)">हिन्दी</button>
+      </div>
+      <!-- বাংলা FAQ -->
+      <div id="faq-set-0">
+        <div class="faq-q" onclick="faqToggle('b1')">১. ভর্তি হতে গেলে কী করতে হবে?</div>
+        <div class="faq-a" id="b1">ভর্তি হতে চাইলে প্রথমে রেজিস্ট্রেশন করতে হবে। Registration বাটনে ক্লিক করে Google Form পূরণ করলেই ভর্তি প্রক্রিয়া শুরু হবে।</div>
+        <div class="faq-q" onclick="faqToggle('b2')">২. ক্লাস কোথায় এবং কীভাবে হবে?</div>
+        <div class="faq-a" id="b2">সব ক্লাস Google Meet-এর মাধ্যমে অনলাইনে হয়, এনরোল্ড ছাত্রছাত্রীদের পাসওয়ার্ড দেয়া হয়।</div>
+        <div class="faq-q" onclick="faqToggle('b3')">৩. ক্লাস/ইভেন্ট/নোটিস কোথায় পাবো?</div>
+        <div class="faq-a" id="b3">সব ক্লাসের সময়, ইভেন্ট এবং টেস্ট ওয়েবসাইটের <b>নোটিস</b> সেকশনে ও WhatsApp/Instagram অফিসিয়াল গ্রুপে জানানো হয়।</div>
+        <div class="faq-q" onclick="faqToggle('b4')">৪. গ্রুপে কীভাবে যোগ দেবো?</div>
+        <div class="faq-a" id="b4">রেজিস্ট্রেশনের পর WhatsApp বা কলের মাধ্যমে যোগাযোগ করলে পাসওয়ার্ড/লিংক দেব, সেটি দিয়ে group-এ জয়েন করতে পারবেন।</div>
+        <div class="faq-q" onclick="faqToggle('b5')">৫. গুগল মিট ক্লাসে পাসওয়ার্ড কিভাবে পাবো?</div>
+        <div class="faq-a" id="b5">এনরোল হওয়ার পর admin WhatsApp বা ফোনে পাসওয়ার্ড শেয়ার করে দিবে, Google Meet ক্লাসে যোগ দিতে পারবেন।</div>
+        <div class="faq-q" onclick="faqToggle('b6')">৬. অনলাইন টেস্ট / পিডিএফ টেস্ট কোথায় পাবো?</div>
+        <div class="faq-a" id="b6">নির্ধারিত সময়ে Test Paper (PDF) ওয়েবসাইটে আপলোড হয়ে যাবে, Students Test দিবে।</div>
+        <div class="faq-q" onclick="faqToggle('b7')">৭. QUERY অপশন কী?</div>
+        <div class="faq-a" id="b7">QUERY অপশন থেকে সরাসরি টিচারদের কাছে প্রশ্ন পাঠাতে পারবেন, যেকোনো সমস্যার সমাধানে।</div>
+        <div class="faq-q" onclick="faqToggle('b8')">৮. আপডেট কিভাবে দেব?</div>
+        <div class="faq-a" id="b8">রেজিস্ট্রেশন এবং গ্রুপে যোগাযোগ করার পরে সব কিছু WhatsApp/Call-এ জানিয়ে দেওয়া হবে।</div>
+      </div>
+      <!-- English FAQ -->
+      <div id="faq-set-1" style="display:none;">
+        <div class="faq-q" onclick="faqToggle('e1')">1. How do I enroll?</div>
+        <div class="faq-a" id="e1">To enroll, you must register first via the Registration button and fill the Google Form.</div>
+        <div class="faq-q" onclick="faqToggle('e2')">2. Where and how are classes held?</div>
+        <div class="faq-a" id="e2">All classes are held online via Google Meet; enrolled students receive a password to join.</div>
+        <div class="faq-q" onclick="faqToggle('e3')">3. Where can I find class/event/notice updates?</div>
+        <div class="faq-a" id="e3">All schedules, events, and tests are published in the website's <b>Notice</b> section and in WhatsApp/Instagram official groups.</div>
+        <div class="faq-q" onclick="faqToggle('e4')">4. How do I join the groups?</div>
+        <div class="faq-a" id="e4">After registering, you'll receive the password/link via WhatsApp or call for joining the official groups.</div>
+        <div class="faq-q" onclick="faqToggle('e5')">5. How do I get Google Meet passwords?</div>
+        <div class="faq-a" id="e5">Once enrolled, the admin will share the password to you via WhatsApp or call; use it to join Google Meet classes.</div>
+        <div class="faq-q" onclick="faqToggle('e6')">6. Where can I find online test PDFs?</div>
+        <div class="faq-a" id="e6">Test papers (PDF) will be uploaded on the website at the scheduled time for students to participate.</div>
+        <div class="faq-q" onclick="faqToggle('e7')">7. What is the Query option?</div>
+        <div class="faq-a" id="e7">You can use the Query option to message teachers directly for help or questions.</div>
+        <div class="faq-q" onclick="faqToggle('e8')">8. How are updates given?</div>
+        <div class="faq-a" id="e8">After registration and group contact, all updates will be given via WhatsApp/call.</div>
+      </div>
+      <!-- हिंदी FAQ -->
+      <div id="faq-set-2" style="display:none;">
+        <div class="faq-q" onclick="faqToggle('h1')">1. दाखिला कैसे लेना है?</div>
+        <div class="faq-a" id="h1">दाखिला लेने के लिए रजिस्ट्रेशन बटन दबाकर Google Form भरना ज़रूरी है।</div>
+        <div class="faq-q" onclick="faqToggle('h2')">2. क्लास कहाँ और कैसे होगी?</div>
+        <div class="faq-a" id="h2">सारी क्लास Google Meet पर ऑनलाइन होती है; एनरोल स्टूडेंट्स को पासवर्ड दिया जाता है।</div>
+        <div class="faq-q" onclick="faqToggle('h3')">3. क्लास/इवेंट/नोटिस की जानकारी कहाँ मिलेगी?</div>
+        <div class="faq-a" id="h3">हर क्लास, इवेंट, टेस्ट की जानकारी वेबसाइट के <b>Notice</b> सेक्शन और WhatsApp/Instagram groups में दी जाती है।</div>
+        <div class="faq-q" onclick="faqToggle('h4')">4. ग्रुप में कैसे जुड़ें?</div>
+        <div class="faq-a" id="h4">रजिस्ट्रेशन के बाद WhatsApp या कॉल के ज़रिये पासवर्ड/लिंक मिलेगा जिससे group में जॉइन कर सकते हैं।</div>
+        <div class="faq-q" onclick="faqToggle('h5')">5. Google Meet क्लास के लिए पासवर्ड कैसे मिलेगा?</div>
+        <div class="faq-a" id="h5">एनरोल होने के बाद एडमिन द्वारा WhatsApp या कॉल पर पासवर्ड मिलेगा; इसे Google Meet क्लास में इस्तेमाल करें।</div>
+        <div class="faq-q" onclick="faqToggle('h6')">6. ऑनलाइन टेस्ट / PDF कहाँ देख सकते हैं?</div>
+        <div class="faq-a" id="h6">टेस्ट पेपर (PDF) निर्धारित समय पर वेबसाइट पर अपलोड करेगा, जिसमें बच्चे भाग ले सकते हैं।</div>
+        <div class="faq-q" onclick="faqToggle('h7')">7. Query ऑप्शन क्या है?</div>
+        <div class="faq-a" id="h7">Query ऑप्शन से टीचर से सीधे सवाल या मदद मांग सकते हैं।</div>
+        <div class="faq-q" onclick="faqToggle('h8')">8. अपडेट कैसे मिलेंगे?</div>
+        <div class="faq-a" id="h8">रजिस्ट्रेशन और ग्रुप में संपर्क के बाद सारी अपडेट WhatsApp/कॉल के ज़रिये दी जाएगी।</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function setFaqLang(idx) {
+      document.querySelectorAll('.faq-lang-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+      document.querySelectorAll('[id^="faq-set-"]').forEach((f,i)=>f.style.display=(i===idx?'':'none'));
+    }
+    function faqToggle(id) {
+      var el=document.getElementById(id);
+      var all=document.querySelectorAll('.faq-a');
+      if(el.style.display==="block") el.style.display="none";
+      else {all.forEach(e=>e.style.display="none");el.style.display="block";}
+    }
+  </script>
+</body>
+</html>
