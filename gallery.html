@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Art Gallery</title>
+<style>
+  body {margin:0; padding:20px; font-family: 'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background: #fff; color: #222;}
+  h2 {margin-bottom: 10px; font-weight: 600; border-bottom: 2px solid #555; padding-bottom: 5px;}
+  .gallery-section {margin-bottom: 40px;}
+  .gallery-grid {display: grid; grid-template-columns: repeat(auto-fill,minmax(90px,1fr)); gap: 10px;}
+  .gallery-grid img {
+    width: 100%; height: 90px; object-fit: cover;
+    cursor: pointer; border-radius: 8px;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.15);
+    transition: transform 0.3s, opacity 0.45s;
+    opacity: 0; animation: fadeIn 0.5s forwards;
+  }
+  .gallery-grid img:hover {transform: scale(1.05);}
+  @keyframes fadeIn {to {opacity: 1;}}
+  .load-more-btn {margin-top: 10px; padding: 8px 15px; background-color: #555; color: white; border:none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: background 0.3s;}
+  .load-more-btn:hover {background-color: #222;}
+  #overlay {
+    position: fixed; display: none; top:0; left:0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+    justify-content: center; align-items: center; cursor: pointer; z-index:9999;
+  }
+  #overlay img {
+    max-width: 90vw; max-height: 90vh; border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.9);
+    animation: zoomIn 0.33s;
+  }
+  @keyframes zoomIn {from{transform:scale(0.7); opacity:0;} to{transform:scale(1); opacity:1;}}
+</style>
+</head>
+<body>
+
+<section class="gallery-section">
+  <h2>Pinaki Chakraborty’s Artworks</h2>
+  <div class="gallery-grid" id="pinakiGallery"></div>
+  <button class="load-more-btn" id="pinakiLoadMore">More</button>
+</section>
+
+<section class="gallery-section">
+  <h2>Hritodeep Chakraborty’s Artworks</h2>
+  <div class="gallery-grid" id="hritodeepGallery"></div>
+  <button class="load-more-btn" id="hritodeepLoadMore">More</button>
+</section>
+
+<div id="overlay" onclick="closeOverlay()">
+  <img id="overlayImage" src="" alt="Expanded artwork" />
+</div>
+
+<script>
+  const pageSize = 10;
+  let pinakiPage = 0;
+  let hritodeepPage = 0;
+
+  const pinakiGallery = document.getElementById('pinakiGallery');
+  const pinakiLoadMore = document.getElementById('pinakiLoadMore');
+  const hritodeepGallery = document.getElementById('hritodeepGallery');
+  const hritodeepLoadMore = document.getElementById('hritodeepLoadMore');
+  const overlay = document.getElementById('overlay');
+  const overlayImage = document.getElementById('overlayImage');
+
+  function createImageElement(title, src) {
+    const img = document.createElement('img');
+    img.src = 'images/' + src;
+    img.alt = title;
+    img.title = title;
+    img.loading = 'lazy';
+    img.onclick = () => openOverlay(img.src);
+    return img;
+  }
+
+  function loadImagesPaginated(gallery, prefix, page) {
+    const start = page * pageSize + 1;
+    const end = Math.min(start + pageSize - 1, 50);
+    for(let i = start; i <= end; i++) {
+      const imgName = prefix + i + '.jpg';
+      gallery.appendChild(createImageElement(imgName, imgName));
+    }
+    return end >= 50 ? false : true;
+  }
+
+  function openOverlay(src) {
+    overlayImage.src = src;
+    overlay.style.display = 'flex';
+  }
+
+  function closeOverlay() {
+    overlay.style.display = 'none';
+    overlayImage.src = '';
+  }
+
+  pinakiLoadMore.onclick = function() {
+    const more = loadImagesPaginated(pinakiGallery, 'p', pinakiPage);
+    pinakiPage++;
+    if(!more) pinakiLoadMore.style.display = 'none';
+  };
+  hritodeepLoadMore.onclick = function() {
+    const more = loadImagesPaginated(hritodeepGallery, 'h', hritodeepPage);
+    hritodeepPage++;
+    if(!more) hritodeepLoadMore.style.display = 'none';
+  };
+
+  // Initial page load for both sections
+  pinakiLoadMore.onclick();
+  hritodeepLoadMore.onclick();
+</script>
+</body>
+</html>
