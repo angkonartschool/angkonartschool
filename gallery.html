@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Art Gallery Pagination</title>
+<style>
+  body {
+    margin: 0; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff; color: #222;
+  }
+  h2 {
+    margin-bottom: 10px; font-weight: 600; border-bottom: 2px solid #555; padding-bottom: 5px;
+  }
+  .gallery-section {
+    margin-bottom: 40px;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(90px,1fr));
+    gap: 10px;
+  }
+  .gallery-grid img {
+    width: 100%; height: 90px; object-fit: cover;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.15);
+    transition: transform 0.3s ease, opacity 0.5s ease;
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+  }
+  .gallery-grid img:hover {
+    transform: scale(1.05);
+  }
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+  .load-more-btn {
+    margin-top: 10px;
+    padding: 8px 15px;
+    background-color: #555;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  .load-more-btn:hover {
+    background-color: #222;
+  }
+  /* Overlay full screen image */
+  #overlay {
+    position: fixed;
+    display: none;
+    top:0; left:0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 9999;
+  }
+  #overlay img {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255 255 255 / 0.9);
+    animation: zoomIn 0.3s ease forwards;
+  }
+  @keyframes zoomIn {
+    from {
+      transform: scale(0.7);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+</style>
+</head>
+<body>
+
+<section class="gallery-section" id="pinakiSection">
+  <h2>Pinaki Chakraborty’s Artworks</h2>
+  <div class="gallery-grid" id="pinakiGallery"></div>
+  <button class="load-more-btn" id="pinakiLoadMore">Load More</button>
+</section>
+
+<section class="gallery-section" id="hritodeepSection">
+  <h2>Hritodeep Chakraborty’s Artworks</h2>
+  <div class="gallery-grid" id="hritodeepGallery"></div>
+  <button class="load-more-btn" id="hritodeepLoadMore">Load More</button>
+</section>
+
+<div id="overlay" onclick="closeOverlay()">
+  <img id="overlayImage" src="" alt="Expanded artwork" />
+</div>
+
+<script>
+  const pageSize = 10;
+  let pinakiPage = 0;
+  let hritodeepPage = 0;
+
+  const pinakiGallery = document.getElementById('pinakiGallery');
+  const hritodeepGallery = document.getElementById('hritodeepGallery');
+  const pinakiLoadMore = document.getElementById('pinakiLoadMore');
+  const hritodeepLoadMore = document.getElementById('hritodeepLoadMore');
+  const overlay = document.getElementById('overlay');
+  const overlayImage = document.getElementById('overlayImage');
+
+  function createImageElement(title, src) {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = title;
+    img.title = title;
+    img.loading = 'lazy';
+    img.onclick = () => openOverlay(src);
+    return img;
+  }
+
+  function loadImagesPaginated(gallery, prefix, page) {
+    const start = page * pageSize + 1;
+    const end = Math.min(start + pageSize - 1, 50);
+    let imagesAdded = 0;
+    for(let i = start; i <= end; i++) {
+      gallery.appendChild(createImageElement(prefix + i, prefix + i + '.jpg'));
+      imagesAdded++;
+    }
+    return end >= 50 ? false : true; // return true if more to load
+  }
+
+  function openOverlay(src) {
+    overlayImage.src = src;
+    overlay.style.display = 'flex';
+  }
+
+  function closeOverlay() {
+    overlay.style.display = 'none';
+    overlayImage.src = '';
+  }
+
+  function setupLoadMore(button, gallery, prefix, getPage, setPage) {
+    button.onclick = () => {
+      const moreToLoad = loadImagesPaginated(gallery, prefix, getPage());
+      setPage(getPage() + 1);
+      if (!moreToLoad) {
+        button.style.display = 'none';
+      }
+    };
+  }
+
+  // Getter/setter helpers for the page number state
+  function getPinakiPage() { return pinakiPage; }
+  function setPinakiPage(v) { pinakiPage = v; }
+
+  function getHritodeepPage() { return hritodeepPage; }
+  function setHritodeepPage(v) { hritodeepPage = v; }
+
+  // Load initial 10 images for each gallery
+  loadImagesPaginated(pinakiGallery, 'Pinaki', pinakiPage);
+  pinakiPage++;
+  loadImagesPaginated(hritodeepGallery, 'Hritodeep', hritodeepPage);
+  hritodeepPage++;
+
+  // Setup the load more buttons
+  setupLoadMore(pinakiLoadMore, pinakiGallery, 'Pinaki', getPinakiPage, setPinakiPage);
+  setupLoadMore(hritodeepLoadMore, hritodeepGallery, 'Hritodeep', getHritodeepPage, setHritodeepPage);
+
+</script>
+
+</body>
+</html>
