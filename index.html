@@ -121,6 +121,53 @@
         
         <a class="btn calendar" href="calendar.html" onclick="blurBtn(this)"><i class="fa fa-calendar"></i><span id="tCal">Upcoming Classes</span></a>
         <a class="btn notice" href="notice.html" onclick="blurBtn(this)"><i class="fa fa-bullhorn"></i><span id="tNot">Notice Board</span></a>
+    <!-- মাঝখানে বসানোর জন্য: -->
+<div style="display:flex;justify-content:center;align-items:center;min-height:120px;">
+  <button class="notice-btn" onclick="document.getElementById('noticeModal').style.display='flex'">
+    Notice
+  </button>
+</div>
+
+<!-- পেজের যেকোনো জায়গায় রাখবে এইটা! -->
+<div id="noticeModal" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;
+background:rgba(14,26,52,0.97);align-items:center;justify-content:center;">
+  <div style="width:100vw;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+   animation:slideinrtl .33s cubic-bezier(.14,1.09,.36,1.02);background:transparent;">
+    <img src="notice.jpg" alt="Notice" style="max-width:91vw;max-height:85vh;border-radius:18px;box-shadow:0 8px 37px #44defa63;">
+    <button style="margin-top:29px;background:linear-gradient(91deg,#2e5eff 60%,#5ff9ff 120%);
+      color:#fff;font-size:1.13em;font-weight:900;padding:9px 32px;border-radius:19px;border:none;cursor:pointer;box-shadow:0 0 13px #84f7ec55;"
+      onclick="document.getElementById('noticeModal').style.display='none'">
+      Back
+    </button>
+  </div>
+</div>
+
+<style>
+.notice-btn {
+  background:linear-gradient(97deg,#3988ff 20%,#6de2e6 120%);
+  color:#fff;font-size:1.18em;font-weight:900;
+  border:none;border-radius:99px;padding:19px 54px;cursor:pointer;
+  box-shadow:0 0 0 0 #56fbdb,0 0 42px #1e4dfb33;
+  position:relative;
+  animation:blinkglow 1.2s ease-in-out infinite alternate;
+}
+@keyframes blinkglow {
+  0% {box-shadow:0 0 0 0 #b9feff,0 0 38px #a7f7eb7d;}
+  70%{box-shadow:0 0 18px 9px #cce5fc,0 0 60px #1e5efc23;}
+  100%{box-shadow:0 0 0 0 #baecfc,0 0 38px #21acfbe1;}
+}
+@keyframes slideinrtl {
+  0%{transform:translateX(98vw);}
+  75%{transform:translateX(-8vw);}
+  100%{transform:translateX(0);}
+}
+</style>
+<script>
+  // ESC key press করলে modal বন্ধ
+  document.addEventListener('keydown',function(e){
+    if(e.key==="Escape")document.getElementById('noticeModal').style.display='none';
+  });
+</script>
         <!-- View Test Papers Button (Paste anywhere on main/homepage) -->
 
       </div>
