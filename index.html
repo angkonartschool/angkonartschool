@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Angkon Art School</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+  <style>
+    :root{
+      --main:#5438ff;
+      --accent:#ffb703;
+      --bg:#f9fafc;
+      --card:#ffffff;
+      --text:#212121;
+      --muted:#666;
+      --radius:16px;
+      --shadow:0 8px 24px rgba(84,56,255,.12);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+      background:var(--bg); color:var(--text);
+    }
+    header{
+      background:linear-gradient(90deg,#5438ff 70%,#856dff 100%);
+      color:#fff; text-align:center; padding:26px 10px 18px; border-radius:0 0 28px 28px; box-shadow:var(--shadow);
+    }
+    h1{margin:0; font-size:2.2rem; letter-spacing:1.2px; font-weight:800}
+    .tag{display:inline-block; margin-top:10px; background:var(--accent); color:#2d2170; padding:4px 14px; border-radius:999px; font-weight:700}
+    .langs{margin-top:12px; display:flex; gap:10px; justify-content:center}
+    .langs button{
+      border:none; background:#fff; color:#5438ff; padding:8px 14px; border-radius:10px; font-weight:700; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.06);
+      transition:.2s; outline:none;
+    }
+    .langs button:hover,.langs button.active{background:var(--accent); color:#1f1f1f; transform:translateY(-2px)}
+    main{max-width:520px; margin:26px auto; padding:0 10px}
+    .card{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; margin-bottom:18px}
+    .about{font-size:1.02rem; line-height:1.55; background:#f6f5ff; border-left:5px solid var(--main); border-radius:12px; padding:12px 14px}
+    .teachers,.addr{background:#f7faff; border-left:5px solid var(--accent); border-radius:12px; padding:10px 14px; font-weight:600}
+    .addr{margin-top:10px}
+    .grid{
+      display:grid; gap:12px;
+      grid-template-columns:1fr 1fr;
+    }
+    .btn{
+      display:flex; align-items:center; justify-content:center; gap:8px;
+      padding:14px 10px; border-radius:12px; font-weight:800; text-decoration:none; cursor:pointer; border:none;
+      color:#fff; background:var(--main); box-shadow:0 6px 18px rgba(84,56,255,.16); transition:.18s;
+      text-align:center; outline:none;
+    }
+    .btn:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(84,56,255,.22)}
+    .btn:active{transform:translateY(0)}
+    /* subject-wise differences */
+    .btn.reg{background:#0ea5e9}
+    .btn.gallery{background:#8b5cf6}
+    .btn.about{background:#22c55e}
+    .btn.students{background:#ef4444}
+    .btn.calendar{background:#f59e0b}
+    .btn.notice{background:#10b981}
+    .btn.youtube{background:#ff0033}
+    .btn.insta{background:#c13584}
+    .btn.meet{background:#2563eb}
+    /* WhatsApp floating button without dotted focus */
+    .wa{
+      position:fixed; right:16px; bottom:20px; width:60px; height:60px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center; color:#fff; background:#25d366; font-size:34px;
+      box-shadow:0 10px 28px rgba(37,211,102,.35); z-index:1000; text-decoration:none; transition:transform .2s, box-shadow .2s; outline:none;
+    }
+    .wa:hover{transform:scale(1.06); box-shadow:0 14px 36px rgba(37,211,102,.45)}
+    .wa:focus{outline:none; box-shadow:0 0 0 0 rgba(0,0,0,0)} /* remove focus ring */
+    .wa::-moz-focus-inner{border:0} /* Firefox inner dotted fix */
+    /* Notices */
+   
+    /* Enrolled names simple list */
+    .enrolled{background:#f8fafc; border-radius:12px; padding:12px; border:1px solid #eef2f7}
+    .enrolled h3{margin:0 0 8px 0; font-size:1.05rem}
+    .enrolled ul{list-style:none; padding:0; margin:0; display:grid; grid-template-columns:1fr 1fr; gap:8px}
+    .enrolled li{background:#ffffff; border:1px solid #eef2f7; border-radius:10px; padding:8px 10px; font-weight:600}
+    footer{background:#111827; color:#e5e7eb; text-align:center; padding:16px; border-radius:28px 28px 0 0; margin-top:20px}
+    /* Mobile */
+    @media (max-width:520px){
+      .grid{grid-template-columns:1fr}
+      .enrolled ul{grid-template-columns:1fr}
+    }
+  </style>
+  </head>
+
+</script>
+  <!-- Floating Admin Button -->
+<div id="adminFloat" onclick="toggleLogin()">
+  <span id="adminText">Admin</span>
+</div>
+
+<!-- Login Box -->
+<div id="loginBox">
+  <input type="password" id="adminPass" placeholder="Enter Admin Code">
+  <button onclick="checkLogin()">Login</button>
+</div>
+
+<!-- Options -->
+<div id="adminOptions">
+  <button onclick="location.href='admission.html'">Admission</button>
+  <button onclick="location.href='result.html'">Result</button>
+</div>
+
+<style>
+  /* Floating Button */
+  #adminFloat {
+    position: fixed;
+    top: 610px;
+    right: 20px;
+    width: 300px;
+    height: 30px;
+    background: linear-gradient(135deg,#6a89cc,#1e3799);
+    color: white;
+    border-radius: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.35);
+    transition: all 0.5s cubic-bezier(.68,-0.55,.27,1.55);
+    z-index: 9999;
+    animation: floaty 3s infinite ease-in-out;
+  }
+
+  @keyframes floaty {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+  }
+
+  /* shrink to circle */
+  .circle {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    font-size: 0;
+    animation: none;
+  }
+
+  /* Login box */
+  #loginBox {
+    position: fixed;
+    top: 554px;
+    right: 20px;
+    width: 200px;
+    padding: 10px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    display: none;
+    animation: slideDown 0.7s ease;
+    z-index: 9999;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  #loginBox input {
+    width: 100%;
+    padding: 7px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+
+  #loginBox button {
+    width: 100%;
+    padding: 7px;
+    border: none;
+    border-radius: 8px;
+    background: #1e3799;
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  /* Options */
+  #adminOptions {
+    position: fixed;
+    top: 530px;
+    right: 20px;
+    display: none;
+    animation: fadeIn 0.4s ease;
+    z-index: 9999;
+  }
+
+  #adminOptions button {
+    display: block;
+    margin: 6px 0;
+    padding: 7px 14px;
+    border-radius: 18px;
+    border: none;
+    background: #1e3799;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+  }
+.yt-section{
+  margin: 40px auto;
+  max-width: 95%;
+  text-align: center;
+}
+
+.yt-section h2{
+  font-size: 1.4em;
+  margin-bottom: 14px;
+  color:#4f46e5;
+  font-weight: 800;
+}
+
+.yt-slider{
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  animation: slideUp 1s ease;
+}
+
+.yt-slider iframe{
+  width:100%;
+  height:230px;
+  border:none;
+}
+
+/* Desktop */
+@media(min-width:900px){
+  .yt-slider iframe{
+    height:380px;
+  }
+}
+
+@keyframes slideUp{
+  from{opacity:0; transform:translateY(40px);}
+  to{opacity:1; transform:translateY(0);}
+}
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  /* ===== Desktop View ===== */
+@media (min-width: 900px) {
+
+  main{
+    max-width: 1100px;
+    padding: 0 30px;
+  }
+
+  header h1{
+    font-size: 3rem;
+  }
+
+  .card{
+    padding: 28px;
+  }
+
+  .grid{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+}@media (min-width: 900px){
+  #studentFloat{
+    top: auto;
+    bottom: 120px;
+  }
+
+  #adminFloat{
+    top: auto;
+    bottom: 70px;
+  }
+
+  #loginBox, #adminOptions, #linkBox{
+    top: auto;
+    bottom: 160px;
+  }
+}.about-card{
+  max-width:1100px0px;
+  margin:18px auto 0;
+  padding:12px 14px 14px;
+  border-radius:18px;
+  background:#f9fafb;
+  border:1px solid #e5e7eb;
+  box-shadow:0 6px 16px rgba(15,23,42,0.15);
+  color:#111827;
+}
+.about-header{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:6px;
+}
+.about-header h3{
+  margin:0;
+  font-size:14px;
+  font-weight:600;
+}
+.about-header p{
+  margin:2px 0 0;
+  font-size:11px;
+  color:#6b7280;
+}
+.about-body{
+  font-size:11px;
+  color:#4b5563;
+  margin-bottom:8px;
+}
+
+/* Flipkart-style yellow button */
+.about-buy-btn{
+  display:block;
+  width:210px;
+  margin:4px 0 0 auto;
+  border:none;
+  border-radius:999px;
+  padding:8px 16px;
+  font-size:12px;
+  font-weight:600;
+  background:linear-gradient(90deg,#ffd82f,#ffb800);
+  color:#1f2933;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,0.16);
+  transition:transform .08s ease,box-shadow .08s ease;
+}
+.about-buy-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 14px rgba(0,0,0,0.2);
+}
+.about-buy-btn:active{
+  transform:translateY(1px) scale(.98);
+  box-shadow:0 3px 8px rgba(0,0,0,0.2);
+}
+
+@media(max-width:640px){
+  .about-card{border-radius:16px;}
+  .about-buy-btn{
+    width:100%;
+    margin:4px 0 0 0;
+    text-align:center;
+  }
+}.gallery-card{
+  max-width:1100px;
+  margin:18px auto 0;
+  padding:12px 14px 14px;
+  border-radius:18px;
+  background:#f9fafb;
+  border:1px solid #e5e7eb;
+  box-shadow:0 6px 16px rgba(15,23,42,0.15);
+  color:#111827;
+}
+.gallery-header{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:6px;
+}
+.gallery-header h3{
+  margin:0;
+  font-size:14px;
+  font-weight:600;
+}
+.gallery-header p{
+  margin:2px 0 0;
+  font-size:11px;
+  color:#6b7280;
+}
+
+/* Flipkart-style yellow button */
+.gallery-buy-btn{
+  display:block;
+  width:210px;
+  margin:4px 0 0 auto;
+  border:none;
+  border-radius:999px;
+  padding:8px 16px;
+  font-size:12px;
+  font-weight:600;
+  background:linear-gradient(90deg,#ffd82f,#ffb800);
+  color:#1f2933;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,0.16);
+  transition:transform .08s ease,box-shadow .08s ease;
+}
+.gallery-buy-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 14px rgba(0,0,0,0.2);
+}
+.gallery-buy-btn:active{
+  transform:translateY(1px) scale(.98);
+  box-shadow:0 3px 8px rgba(0,0,0,0.2);
+}
+
+@media(max-width:640px){
+  .gallery-card{border-radius:16px;}
+  .gallery-buy-btn{
+    width:100%;
+    margin:4px 0 0 0;
+    text-align:center;
+  }
+}.reg-card{
+  max-width:1100px;
+  margin:18px auto 0;
+  padding:12px 14px 14px;
+  border-radius:18px;
+  background:#f9fafb;
+  border:1px solid #e5e7eb;
+  box-shadow:0 6px 16px rgba(15,23,42,0.15);
+  color:#111827;
+}
+.reg-text{
+  margin:0 0 8px 0;
+  font-size:11px;
+  color:#4b5563;
+}
+
+/* Flipkart-style yellow button */
+.reg-buy-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:180px;
+  border:none;
+  border-radius:999px;
+  padding:8px 20px;
+  font-size:13px;
+  font-weight:600;
+  background:linear-gradient(90deg,#ffd82f,#ffb800);
+  color:#1f2933;
+  text-decoration:none;
+  box-shadow:0 4px 10px rgba(0,0,0,0.16);
+  cursor:pointer;
+  transition:transform .08s ease,box-shadow .08s ease;
+}
+.reg-buy-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 14px rgba(0,0,0,0.2);
+}
+.reg-buy-btn:active{
+  transform:translateY(1px) scale(.98);
+  box-shadow:0 3px 8px rgba(0,0,0,0.2);
+}
+
+@media(max-width:640px){
+  .reg-card{border-radius:16px;}
+  .reg-buy-btn{
+    width:100%;
+    text-align:center;
+  }
+}
+</style>
+
+<script>// Teacher Art Gallery button -> open gallery.html
+document.addEventListener('DOMContentLoaded', function () {
+  const openGalleryBtn = document.getElementById('openGallery');
+
+  if (openGalleryBtn) {
+    openGalleryBtn.addEventListener('click', function () {
+      window.open('gallery.html', '_blank'); // same folder e gallery.html
+    });
+  }
+});// About Us button -> open description.html
+document.addEventListener('DOMContentLoaded', function () {
+  const openAboutBtn = document.getElementById('openAbout');
+
+  if (openAboutBtn) {
+    openAboutBtn.addEventListener('click', function () {
+      window.open('description.html', '_blank'); // same folder e file thakbe
+    });
+  }
+});
+  // Auto shrink after 3 sec
+  setTimeout(() => {
+    document.getElementById("adminFloat").classList.add("circle");
+    document.getElementById("adminText").style.display = "none";
+  }, 3000);
+
+  function toggleLogin() {
+    const box = document.getElementById("loginBox");
+    box.style.display = box.style.display === "block" ? "none" : "block";
+  }
+
+  function checkLogin() {
+    const pass = document.getElementById("adminPass").value;
+    if (pass === "0000") {
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("adminOptions").style.display = "block";
+    } else {
+      alert("Wrong Code!");
+    }
+  }
+</script>
+  <header>
+    <h1>Angkon Art School</h1>
+    <div class="tag">Art for all • Learn & Create</div>
+    <div class="langs">
+      <button id="bnBtn" onclick="setLang('bn')">বাংলা</button>
+      <button id="enBtn" class="active" onclick="setLang('en')">English</button>
+      <button id="hiBtn" onclick="setLang('hi')">हिन्दी</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- About full (always expanded) -->
+  
+    <div class="card">
+      <div id="about" class="about"></div>
+      <div id="teachers" class="teachers" style="margin-top:10px"></div>
+      <div id="addr" class="addr">Our Location:Purnashrom Purandaha lal kothi. Near: Durga Mandir</div>
+    </div>
+<div class="yt-section">
+  <h2> Latest Art Videos</h2>
+
+  <div class="yt-slider">
+    <iframe
+      src="https://www.youtube.com/embed/videoseries?list=UUwxg_u12S16ekb5iV_4Bdaw"
+      allowfullscreen
+      loading="lazy">
+    </iframe>
+  </div>
+</div>
+   <section class="reg-card">
+  <p class="reg-text">
+    To register for Angkon Art School, tap the Registration button below.
+  </p>
+
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSeFIKRWYJRLRF2xL4PE3Jjn0f4LHWavrxIJb6Gj6SrBuCFhLg/viewform?usp=header"
+     target="_blank"
+     class="reg-buy-btn">
+     Registration
+  </a>
+</section>
+
+        <section class="gallery-card">
+  <div class="gallery-header">
+    <div>
+      <h3>Art Gallery</h3>
+      <p>See artworks created by our art teachers.</p>
+    </div>
+  </div>
+
+  <button class="gallery-buy-btn" id="openGallery">
+    View Art Gallery
+  </button>
+</section>
+       <section class="about-card">
+  <div class="about-header">
+    <div>
+      <h3>About Us</h3>
+      <p>Know more about Angkon Art School and our classes.</p>
+    </div>
+  </div>
+
+  <div class="about-body">
+    <p>
+      Tap the button below to read our full “About Us” details and get answers
+      to common questions.
+    </p>
+  </div>
+
+  <button class="about-buy-btn" id="openAbout">
+    About us
+  </button>
+</section>
+        
+        
+        
+  <!-- Small Transparent Premium Button -->
+
+</div><style>
+.silver-btn {
+    display: block;
+    width: 85%;
+    margin: 20px auto;
+
+    padding: 18px 30px;
+    border-radius: 18px;
+
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+
+    color: #2b2b2b;
+    text-decoration: none;
+
+    /* PURE SILVER METALLIC */
+    background: linear-gradient(135deg,
+        #eeeeee,
+        #cfcfcf,
+        #f7f7f7,
+        #d0d0d0
+    );
+
+    box-shadow: 
+        0 8px 20px rgba(0,0,0,0.18),
+        inset 0 1px 5px rgba(255,255,255,0.8),
+        inset 0 -3px 8px rgba(0,0,0,0.15);
+
+    border: 1px solid rgba(255,255,255,0.6);
+
+    transition: 0.2s ease-in-out;
+}
+
+/* Hover → more shine */
+.silver-btn:hover {
+    background: linear-gradient(135deg,
+        #ffffff,
+        #e3e3e3,
+        #ffffff
+    );
+    box-shadow: 
+        0 12px 26px rgba(0,0,0,0.25),
+        inset 0 2px 6px rgba(255,255,255,1);
+    transform: translateY(-2px);
+}.notice-card{
+  max-width:1100px0px;
+  margin:18px auto 0;
+  padding:12px 14px 14px;
+  border-radius:18px;
+  background:#f9fafb;
+  border:1px solid #e5e7eb;
+  box-shadow:0 6px 16px rgba(15,23,42,0.15);
+  color:#111827;
+}
+.notice-header{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:6px;
+}
+.notice-header h3{
+  margin:0;
+  font-size:14px;
+  font-weight:600;
+}
+.notice-header p{
+  margin:2px 0 0;
+  font-size:11px;
+  color:#6b7280;
+}
+.notice-header .badge{
+  align-self:flex-start;
+  font-size:11px;
+  padding:3px 8px;
+  border-radius:999px;
+  background:#fee2e2;
+  color:#b91c1c;
+  font-weight:600;
+}
+.notice-body{
+  font-size:11px;
+  color:#4b5563;
+  margin-bottom:8px;
+}
+.notice-body small{
+  display:block;
+  margin-top:3px;
+  font-size:10px;
+  color:#9ca3af;
+}
+
+/* Flipkart-style yellow button */
+.notice-buy-btn{
+  display:block;
+  width:160px;
+  margin:4px 0 0 auto;
+  border:none;
+  border-radius:999px;
+  padding:8px 16px;
+  font-size:12px;
+  font-weight:600;
+  background:linear-gradient(90deg,#ffd82f,#ffb800);
+  color:#1f2933;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,0.16);
+  transition:transform .08s ease,box-shadow .08s ease;
+}
+.notice-buy-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 14px rgba(0,0,0,0.2);
+}
+.notice-buy-btn:active{
+  transform:translateY(1px) scale(.98);
+  box-shadow:0 3px 8px rgba(0,0,0,0.2);
+}
+
+@media(max-width:640px){
+  .notice-card{border-radius:16px;}
+  .notice-buy-btn{
+    width:100%;
+    margin:4px 0 0 0;
+    text-align:center;
+  }
+}.student-practice-card{
+  max-width:1100px;
+  margin:18px auto 0;
+  padding:12px 14px 14px;
+  border-radius:18px;
+  background:#f9fafb;
+  border:1px solid #e5e7eb;
+  box-shadow:0 6px 16px rgba(15,23,42,0.15);
+  color:#111827;
+}
+.student-practice-text{
+  margin:0 0 8px 0;
+  font-size:11px;
+  color:#4b5563;
+}
+
+/* Flipkart-style yellow button */
+.student-practice-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:170px;
+  border:none;
+  border-radius:999px;
+  padding:8px 18px;
+  font-size:12px;
+  font-weight:600;
+  background:linear-gradient(90deg,#ffd82f,#ffb800);
+  color:#1f2933;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,0.16);
+  transition:transform .08s ease,box-shadow .08s ease;
+}
+.student-practice-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 14px rgba(0,0,0,0.2);
+}
+.student-practice-btn:active{
+  transform:translateY(1px) scale(.98);
+  box-shadow:0 3px 8px rgba(0,0,0,0.2);
+}
+
+@media(max-width:640px){
+  .student-practice-card{border-radius:16px;}
+  .student-practice-btn{
+    width:100%;
+    text-align:center;
+  }
+}
+</style>
+<section class="student-practice-card">
+  <p class="student-practice-text">
+    Practice art with daily drawing exercises specially designed for students.
+  </p>
+
+  <button class="student-practice-btn" id="openStudentPractice">
+    Practice Art
+  </button>
+</section>
+
+<!-- Notice floating button (index.html) -->
+
+<section class="notice-card">
+  <div class="notice-header">
+    <div>
+      <h3>Latest Notice</h3>
+      <p>Important update for students .</p>
+    </div>
+    <span class="badge">NEW</span>
+  </div>
+
+  <div class="notice-body">
+    <p id="noticePreview">
+      Tap the button below to open the full notice.
+    </p>
+    <small>Published by Angkon Art School Admin.</small>
+  </div>
+
+  <button class="notice-buy-btn" id="openNotice">
+    View Notice
+  </button>
+</section>
+<!-- Floating Notice Modal -->
+<div id="noticeModalFloat"
+  style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh; background:rgba(22,32,56,0.88);align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:19px;box-shadow:0 10px 44px #54eaff4c;max-width:400px;width:96vw;
+    padding:32px 19px 23px 19px; margin:0 auto;animation:slideFloat .25s;">
+    <div style="text-align:center;font-size:1.26em;font-weight:900;color:#357fda;margin-bottom:13px;">📢 Notice Board</div>
+    <div style="background:linear-gradient(98deg,#f2eaff 73%,#daffff 140%);border-radius:13px;padding:15px 11px 14px 15px;margin-bottom:10px;box-shadow:0 3px 18px #b1eefe17;">
+      <div style="font-size:1.07em;font-weight:700;color:#2b377a;margin-bottom:7px;">
+        Every <span style="color:#5c1eff;font-weight:800;">Sunday</span> · <span style="color:#45bcbc;font-weight:800;">11:30 AM</span> · <span style="color:#248a45;font-weight:700;">Google Meet</span>
+      </div>
+      <div style="margin: 10px 0;">
+        <span style="background:linear-gradient(96deg,#ff67b2 8%,#25d366 115%);
+        color:#fff;font-weight:900;border-radius:10px;padding:5px 17px; font-size:.99em;letter-spacing:.01em;margin-right:.88em;">
+          Registration Open
+        </span>
+      </div>
+      <div style="text-align:left;font-size:.98em;font-weight:600;color:#198dca;">If you have any issue,<br>
+        <span style="color:#594feb">use <b>Query</b> to contact us.</span>
+      </div>
+      <div style="width:100%;display:flex;justify-content:center;">
+        <a href="https://wa.me/9955439171?text=Hi!%20I%20have%20a%20query%20regarding%20Angkon%20Art%20School."
+           style="margin-top:17px;background:linear-gradient(98deg,#25d366 32%,#3197f5 121%);
+           color:#fff;font-weight:bold;font-size:1.11em;border:none;border-radius:15px;padding:13px 41px;text-align:center;box-shadow:0 2px 16px #4eeaae29;text-decoration:none;display:inline-block;transition:.14s;"
+           target="_blank">Query</a>
+      </div>
+    </div>
+    <div style="text-align:right;font-size:.96em;color:#48c6f8;margin-top:7px;">Last Updated: 25 Sept, 2025</div>
+    <div style="text-align:center;margin-top:19px;">
+      <button onclick="document.getElementById('noticeModalFloat').style.display='none'"
+        style="background:linear-gradient(91deg,#26e2b7 49%,#357dfc 141%);
+              color:#fff;font-size:1.05em;font-weight:900;padding:9px 31px;border-radius:13px;border:none;cursor:pointer;">
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+<style>
+@keyframes blinkglow {
+  0% {box-shadow:0 0 0 0 #59eaff,0 0 32px #bdfdff;}
+  50%{box-shadow:0 0 16px 9px #aefcff,0 0 42px #47faff21;}
+  100%{box-shadow:0 0 0 0 #30dffc,0 0 22px #21c6e6;}
+}
+@keyframes slideFloat { from {opacity:0;transform:translateY(40px);} to {opacity:1;transform:translateY(0);} }
+</style>
+<script>// Student Practice Art button -> open Gemini link
+const studentPracticeBtn = document.getElementById('openStudentPractice');
+
+if (studentPracticeBtn) {
+  studentPracticeBtn.addEventListener('click', () => {
+    window.open('https://g.co/gemini/share/e9cfbfaf6b78', '_blank');
+  });
+}
+document.getElementById('noticeFloatBtn').onclick = function(){
+  document.getElementById('noticeModalFloat').style.display='flex';
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==="Escape")document.getElementById('noticeModalFloat').style.display='none';
+});
+</script>
+<!-- পেজের যেকোনো জায়গায় রাখবে এইটা! -->
+
+</div>
+
+<style>
+.notice-btn {
+  background:linear-gradient(97deg,#3988ff 20%,#6de2e6 120%);
+  color:#fff;font-size:1.18em;font-weight:900;
+  border:none;border-radius:99px;padding:19px 54px;cursor:pointer;
+  box-shadow:0 0 0 0 #56fbdb,0 0 42px #1e4dfb33;
+  position:relative;
+  animation:blinkglow 1.2s ease-in-out infinite alternate;
+}
+@keyframes blinkglow {
+  0% {box-shadow:0 0 0 0 #b9feff,0 0 38px #a7f7eb7d;}
+  70%{box-shadow:0 0 18px 9px #cce5fc,0 0 60px #1e5efc23;}
+  100%{box-shadow:0 0 0 0 #baecfc,0 0 38px #21acfbe1;}
+}
+@keyframes slideinrtl {
+  0%{transform:translateX(98vw);}
+  75%{transform:translateX(-8vw);}
+  100%{transform:translateX(0);}
+}
+</style>
+<script>
+  // ESC key press করলে modal বন্ধ
+  document.addEventListener('keydown',function(e){
+    if(e.key==="Escape")document.getElementById('noticeModal').style.display='none';
+  });
+  // Notice button -> open Gemini notice link
+const openNoticeBtn = document.getElementById('openNotice');
+
+if (openNoticeBtn) {
+  openNoticeBtn.addEventListener('click', function () {
+    window.open('https://g.co/gemini/share/2000fa48afed', '_blank');
+  });
+}
+</script>
+        <!-- View Test Papers Button (Paste anywhere on main/homepage) -->
+
+      </div>
+    </div>
+
+    <!-- Social + Locked links -->
+    <div class="card">
+      <div class="grid">
+       <!-- View Test Papers Button (Paste anywhere on main/homepage) -->
+<button
+  style="width:99%;margin:16px 0;background:#1865d0;color:#fff;font-weight:800;font-size:1.10em;padding:14px 0;border:none;border-radius:13px;box-shadow:0 2px 10px #1865d047;display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;"
+  onclick="window.open('https://drive.google.com/file/d/FILE_ID/view','_blank')">
+  <i class="fa fa-file-pdf-o"></i>
+  View Testpaper
+</button>
+
+<button onclick="joinWhatsAppGroup()" 
+  style="width:100%;margin:17px 0 0 0;background:#25d366;color:#fff;font-weight:800;font-size:1.08em;padding:15px 0;border:none;border-radius:13px;box-shadow:0 3px 12px #25d36630;display:flex;align-items:center;justify-content:center;gap:11px;cursor:pointer;">
+  <i class="fa fa-lock"></i>
+  WhatsApp Group (Locked)
+</button>
+        <!-- BUTTONS SECTION -->
+<div style="display:flex;gap:12px;justify-content:center;margin-top:24px;">
+  <button id="meetBtn" onclick="showPwdModal('meet')" style="background:#2b55cf;color:#fff;font-weight:800;font-size:1.1em;padding:16px 22px;border:none;border-radius:13px;box-shadow:0 3px 15px #2b55cf25;cursor:pointer;transition:.18s;"><i class="fa fa-video-camera"></i> Open Google Meet</button>
+  <button id="instaBtn" onclick="showPwdModal('insta')" style="background:linear-gradient(92deg,#ef246b 70%,#ffd700);color:#fff;font-weight:800;font-size:1.1em;padding:16px 22px;border:none;border-radius:13px;box-shadow:0 3px 15px #ef246b25;cursor:pointer;transition:.18s;"><i class="fa fa-instagram"></i> Open Instagram Group</button>
+</div>
+
+<!-- MODAL PASSWORD FORM (hidden by default) -->
+<div id="pwdModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:3000;background:rgba(30,20,80,0.19);justify-content:center;align-items:center;">
+  <div id="modalCard" style="background:#fff;border-radius:15px;box-shadow:0 3px 24px #2b55cf32;padding:27px 21px 19px 21px;max-width:330px;width:94vw;margin:auto;display:flex;flex-direction:column;align-items:center;">
+    <div id="modalTitle" style="font-weight:800;font-size:1.13em;color:#1a1842;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+      <i id="modalIcon" class="fa"></i> <span id="modalText"></span>
+    </div>
+    <input id="modalPass" type="password" placeholder="Enter group password" style="width:97%;padding:10px 8px;border-radius:7px;border:1.4px solid #e7e7fa;font-size:1.07em;margin-bottom:13px;" autocomplete="off" />
+    <button id="modalBtn" onclick="checkModalPwd()" style="width:96%;background:#2b55cf;color:#fff;font-weight:700;font-size:1.04em;padding:11px 0;border:none;border-radius:9px;box-shadow:0 2px 15px #2b55cf21;cursor:pointer;transition:.17s;">
+      <i class="fa fa-arrow-right"></i> Enter
+    </button>
+    <div id="modalError" style="margin-top:9px;color:#d42c39;font-weight:700;font-size:.98em;display:none;"></div>
+    <button onclick="closePwdModal()" style="margin-top:10px;background:none;border:none;color:#c72333;font-size:1.2em;cursor:pointer;"><i class="fa fa-times"></i></button>
+  </div>
+</div>
+<script>
+const pwdData = { // passwords + link per group
+  meet: { 
+    password: "MEETART",
+    link: "https://meet.google.com/mrt-bzth-mnb",
+    label: "Google Meet",
+    icon: "fa-video-camera"
+  },
+  insta: {
+    password: "ARTINSTAGRP",
+    link: "https://ig.me/j/AbYwLr7l7II7lVIL/",
+    label: "Instagram Group",
+    icon: "fa-instagram"
+  }
+};
+let currentGroup = null;
+
+function showPwdModal(which) {
+  currentGroup = which;
+  document.getElementById('modalIcon').className = 'fa ' + pwdData[which].icon;
+  document.getElementById('modalText').innerText = pwdData[which].label;
+  document.getElementById('pwdModal').style.display = 'flex';
+  document.getElementById('modalPass').value = '';
+  document.getElementById('modalError').style.display='none';
+  document.getElementById('modalCard').style.borderColor = "#fff";
+}
+
+function closePwdModal() {
+  document.getElementById('pwdModal').style.display = 'none';
+  document.getElementById('modalError').style.display='none';
+  document.getElementById('modalCard').style.borderColor = "#fff";
+}
+
+function checkModalPwd() {
+  const input = document.getElementById('modalPass').value.trim();
+  const correct = pwdData[currentGroup].password;
+  if(input.replace(/\s+/g,'').toUpperCase() === correct) {
+    document.getElementById('modalCard').style.borderColor="#25d366";
+    setTimeout(()=>{closePwdModal();window.open(pwdData[currentGroup].link,"_blank");},260);
+  } else {
+    document.getElementById('modalError').style.display='block';
+    document.getElementById('modalError').innerText="Invalid password! Try again.";
+    // Shake animation
+    const card = document.getElementById('modalCard');
+    card.style.transition='0.15s';
+    card.style.transform='translateX(-9px)';
+    setTimeout(()=>{card.style.transform='translateX(7px)'},80);
+    setTimeout(()=>{card.style.transform='translateX(0px)'},180);
+    card.style.borderColor="#d42c39";
+  }
+}
+</script>
+
+        
+
+
+<script>
+function joinWhatsAppGroup() {
+  var pass = prompt("This WhatsApp Group is locked.\nPlease enter the password to access:");
+  // Set your password below
+  var CORRECT = "angkon2025";
+  if (pass === CORRECT) {
+    // Open WhatsApp group link
+    window.open("https://chat.whatsapp.com/LrDdK1SpXAl9jLSY7BKrhk?mode=ems_copy_t", "_blank");
+  } else if(pass!==null){
+    alert("Incorrect password. Access denied.");
+  }
+}
+</script>
+
+
+<!--
+Replace the previous Enrolled Students section with this code.
+Place the <style> and <script> part as appropriate.
+-->
+
+</div>
+
+<!-- Artwork Modal Overlay -->
+<div class="modal-ovl" id="modalOvl" onclick="closeModal(event)">
+  <div class="modal-imgbox" onclick="event.stopPropagation()">
+    <div class="modal-title" id="modalTitle"></div>
+    <img id="modalImg" src="" alt="Student Artwork" />
+    <div class="modal-desc" id="modalDesc"></div>
+    <button class="modal-close" onclick="closeModal()">Back</button>
+  </div>
+</div>
+
+<style>
+/* Place inside your style block or .css */
+.modal-ovl{display:none;position:fixed;z-index:1999;left:0;top:0;width:100vw;height:100vh;background:rgba(18,21,34,0.77);align-items:center;justify-content:center;}
+.modal-ovl.active{display:flex;}
+.modal-imgbox{background:#fff;padding:18px 18px 12px 18px;border-radius:18px;max-width:97vw;max-height:94vh;box-shadow:0 10px 42px #0003;display:flex;flex-direction:column;align-items:center;}
+.modal-imgbox img{max-width:1100px;width:100%;border-radius:10px;box-shadow:0 2px 17px #0002;margin-bottom:13px;}
+.modal-title{font-weight:700;font-size:1.13em;color:#412b97;}
+.modal-desc{color:#666;font-size:1em;margin:6px 0 2px 0;}
+.modal-close{margin-top:7px;background:#f1f1f8;color:#222;border:none;padding:7px 25px;border-radius:8px;font-weight:700;box-shadow:0 1px 7px #0002;font-size:1.08em;cursor:pointer;}
+.modal-close:hover{background:#e1defd;color:#312e81;}
+.enrolled-list .rank-btn{
+  background:#fffbe6;
+  border:2px solid #fbbc04;
+  color:#312e81;
+  border-radius:12px;
+  padding:9px 18px;
+  cursor:pointer;
+  font-weight:700;
+  font-size:1.06em;
+  margin:3px 0;
+  transition:.15s;
+  box-shadow:0 2px 9px #fdad1a18;
+}
+.enrolled-list .rank-btn:hover{background:#ffd170;color:#b3511d;}
+</style>
+
+<script>
+// Update this array for quick content change!
+
+// Ranks render
+function renderRankList(){
+  const list = document.getElementById('rankList');
+  list.innerHTML = "";
+  rankStudents.forEach((stu, i) => {
+    const b = document.createElement('button');
+    b.className = "rank-btn";
+    b.textContent = `#${i+1} ${stu.name}`;
+    b.onclick = ()=>showModal(stu);
+    b.setAttribute('tabindex','0');
+    list.appendChild(b);
+  });
+}
+
+// Modal show/hide
+function showModal(stu){
+  document.getElementById('modalTitle').textContent = stu.name;
+  document.getElementById('modalImg').src = stu.img;
+  document.getElementById('modalImg').alt = stu.name + " artwork";
+  document.getElementById('modalDesc').textContent = stu.desc;
+  document.getElementById('modalOvl').classList.add('active');
+}
+function closeModal(e){
+  if(!e || e.target.id==="modalOvl"){
+    document.getElementById('modalOvl').classList.remove('active');
+  }
+}
+
+// Initialize rank list
+
+</script>
+    
+
+
+
+  <a href="mailto:creativehritodeep@gmail.com" style="text-decoration:none;">
+  <div style="
+    margin:76px;
+    padding:36px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    box-shadow: 0 10px 25px rgba(99,102,241,0.35);
+    color:white;
+    font-size:16px;
+    font-weight:600;
+  ">
+     Contact Us
+  </div>
+</a>
+<!-- Floating Query Button (footer overlap na kore) -->
+
+
+
+<!-- Query Modal With Extra School Name Field -->
+<div id="queryModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(30,20,80,0.45);z-index:1300;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:17px;box-shadow:0 7px 40px #653cfd24;padding:25px 13px 15px 13px;max-width:375px;width:94vw;margin:auto;position:relative;">
+    <button onclick="closeQueryModal()" style="position:absolute;top:8px;right:8px;background:transparent;border:none;font-size:1.24em;color:#d42c39;cursor:pointer;"><i class="fa fa-times"></i></button>
+    <div style="font-weight:700;font-size:1.11em;color:#5220d0;margin-bottom:10px;">
+      <i class="fa fa-user"></i> Submit Your Query
+    </div>
+    <form id="queryForm" autocomplete="off" onsubmit="submitQueryToWhatsapp(event)">
+      <input type="text" id="querySchool" placeholder="School Name" required style="width:100%;padding:10px 8px;border-radius:7px;border:1.2px solid #e7e7fa;font-size:1em;margin-bottom:8px;" />
+      <input type="text" id="queryName" placeholder="Your Name" required style="width:100%;padding:10px 8px;border-radius:7px;border:1.2px solid #e7e7fa;font-size:1em;margin-bottom:8px;" />
+      <input type="email" id="queryEmail" placeholder="Your Email (optional)" style="width:100%;padding:10px 8px;border-radius:7px;border:1.2px solid #e7e7fa;font-size:1em;margin-bottom:8px;" />
+      <textarea id="queryMsg" placeholder="Your Message / Query" required style="width:100%;min-height:50px;padding:10px 8px;border-radius:7px;border:1.2px solid #e7e7fa;font-size:1em;margin-bottom:8px;"></textarea>
+      <button type="submit" style="background:linear-gradient(92deg,#633bfa 75%,#ffb703);color:#fff;font-weight:700;border:none;border-radius:7px;padding:9px 14px;font-size:1em;width:100%;box-shadow:0 2px 8px #633bfa14;cursor:pointer">
+        <i class="fa fa-paper-plane"></i> Submit
+      </button>
+    </form>
+  </div>
+</div>
+<script>
+function openQueryModal() {
+  document.getElementById('queryModal').style.display = 'flex';
+  setTimeout(()=>{document.getElementById('queryModal').style.opacity = 1;},20);
+}
+function closeQueryModal() {
+  document.getElementById('queryModal').style.opacity = 0;
+  setTimeout(()=>{document.getElementById('queryModal').style.display = 'none';},200);
+}
+document.getElementById('openQueryBtn').onclick = openQueryModal;
+
+// Now includes School Name in message:
+function submitQueryToWhatsapp(event) {
+  event.preventDefault();
+  const school = document.getElementById('querySchool').value.trim();
+  const name = document.getElementById('queryName').value.trim();
+  const email = document.getElementById('queryEmail').value.trim();
+  const msg = document.getElementById('queryMsg').value.trim();
+  let text = "*--- Query From Angkon Art School Website ---*%0A";
+  text += "*School Name*: " + school + "%0A";
+  text += "*Name*: " + name + "%0A";
+  if(email) text += "*Email*: " + email + "%0A";
+  text += "*Message*: " + msg;
+  const waUrl = `https://wa.me/919955439171?text=${text}`;
+  window.open(waUrl,'_blank');
+  closeQueryModal();
+  document.getElementById('queryForm').reset();
+}
+</script>
+
+  <script>
+    // Remove dotted focus after click on anchor buttons (accessibility note: still keyboard focusable)
+    function blurBtn(el){ setTimeout(()=>{ try{ el.blur(); }catch(e){} }, 150); } // [ref: remove focus ring patterns]
+
+    // Language texts
+    const TEXTS={
+      en:{
+        about:"Angkon Art School, under the guidance of Pinaki Chakraborty and Junior Group Teacher Hritodeep Chakraborty, is committed to delivering comprehensive and structured education in fine arts, fostering both technical proficiency and creative exploration. With a curriculum that balances classical foundations and contemporary approaches, the school provides an inspiring learning environment where students of all levels are encouraged to refine their skills, expand their imagination, and cultivate a deep appreciation for artistic expression.",
+        teachers:"Pinaki Chakraborty & Hritodeep Chakraborty",
+        reg:"Registration", gal:"Art Gallery", abt:"About / Description", stu:"Student List", cal:"Upcoming Classes", not:"Notice Board",
+        
+      },
+      bn:{
+        about:"Angkon Art School, Pinaki Chakraborty এবং Hritodeep Chakraborty-এর তত্ত্বাবধানে, সূক্ষ্ম শিল্পে সামগ্রিক ও কাঠামোগত শিক্ষাদান করে, যাতে প্রযুক্তিগত পারদর্শিতা এবং সৃজনশীল অন্বেষণ উভয়ই বিকশিত হয়। ক্লাসিকাল ভিত্তি ও আধুনিক পদ্ধতির ভারসাম্যপূর্ণ পাঠ্যক্রমের মাধ্যমে, সব স্তরের শিক্ষার্থীরা দক্ষতা উন্নত করে, কল্পনা প্রসারিত করে এবং শিল্পীসুলভ অভিব্যক্তির প্রতি গভীর অনুরাগ গড়ে তোলে।",
+        teachers:"Senior Group Teacher: পিনাকী চক্রবর্তী • Junior Group Teacher: হৃতদীপ চক্রবর্তী",
+        reg:"রেজিস্ট্রেশন", gal:"আর্ট গ্যালারি", abt:"অ্যাবাউট / বর্ণনা", stu:"স্টুডেন্ট লিস্ট", cal:"আপকামিং ক্লাস", not:"নোটিস বোর্ড",
+        note:"নোটিস: নিয়মিত আপডেট এখানে দেয়া হবে।",
+        upc:"আগামী: নতুন সময়সূচী ক্যালেন্ডার পেজে দেখুন।",
+        enrollHead:"ভর্তি শিক্ষার্থীরা",
+        enrollNote:"শুধুমাত্র ভেরিফায়েড সদস্যদের নাম দেখানো হয়।"
+      },
+      hi:{
+        about:"Angkon Art School, पिनाकी चक्रवर्ती और  हृतदीप चक्रवर्ती के मार्गदर्शन में, ललित कला में व्यापक और संरचित शिक्षा प्रदान करता है, जो तकनीकी दक्षता और रचनात्मक खोज दोनों को बढ़ावा देता है। पाठ्यक्रम शास्त्रीय नींव और समकालीन दृष्टिकोण का संतुलन रखता है, जिससे सभी स्तरों के छात्र अपनी क्षमताओं को निखारें, कल्पना का विस्तार करें और कलात्मक अभिव्यक्ति के प्रति गहरी सराहना विकसित करें।",
+        teachers:"पिनाकी चक्रवर्ती & हृतदीप चक्रवर्ती",
+        reg:"पंजीकरण", gal:"आर्ट गैलरी", abt:"अबाउट / विवरण", stu:"विद्यार्थी सूची", cal:"आगामी कक्षाएँ", not:"सूचना पट्ट",
+        note:"सूचना: नियमित अपडेट यहाँ पोस्ट किए जाएंगे।",
+        upc:"आगामी: नए शेड्यूल के लिए कैलेंडर पेज देखें।",
+        enrollHead:"नामांकित छात्र",
+        enrollNote:"केवल सत्यापित सदस्यों के नाम दिखाए जाते हैं।"
+      }
+    };
+
+    function applyTexts(t){
+      document.getElementById('about').textContent=t.about;
+      document.getElementById('teachers').textContent=t.teachers;
+      document.getElementById('tReg').textContent=t.reg;
+      document.getElementById('tGal').textContent=t.gal;
+      document.getElementById('tAbout').textContent=t.abt;
+      document.getElementById('tStu').textContent=t.stu;
+      document.getElementById('tCal').textContent=t.cal;
+      document.getElementById('tNot').textContent=t.not;
+      document.getElementById('noteTxt').textContent=t.note;
+      document.getElementById('upcTxt').textContent=t.upc;
+      document.getElementById('tEnrollHead').textContent=t.enrollHead;
+      document.getElementById('tEnrollNote').textContent=t.enrollNote;
+    }
+
+    function setLang(code){
+      document.getElementById('bnBtn').classList.remove('active');
+      document.getElementById('enBtn').classList.remove('active');
+      document.getElementById('hiBtn').classList.remove('active');
+      if(code==='bn') document.getElementById('bnBtn').classList.add('active');
+      if(code==='en') document.getElementById('enBtn').classList.add('active');
+      if(code==='hi') document.getElementById('hiBtn').classList.add('active');
+      applyTexts(TEXTS[code]);
+      // keep address fixed as per requirement
+    }
+
+    // Locked access (frontend demo; real security needs backend)
+    const DEMO_PASS="artschool2025"; // replace with real per-student password server-side later
+
+    async function meetAccess(){
+      const ok = confirm("Members only. Do you have a valid membership?");
+      if(!ok) return;
+      const p = prompt("Enter membership password:");
+      if(p===DEMO_PASS){
+        window.location.href="https://meet.google.com/mrt-bzth-mnb";
+      }else{
+        alert("Invalid password. Access denied.");
+      }
+    }
+
+    async function instaAccess(){
+      const ok = confirm("Instagram group is for subscribed students only. Continue?");
+      if(!ok) return;
+      const p = prompt("Enter access password:");
+      if(p===DEMO_PASS){
+        window.location.href="https://ig.me/j/AbYwLr7l7II7lVIL/";
+      }else{
+        alert("Invalid password. Access denied.");
+      }
+    }
+
+    // Init
+    setLang('en');
+  </script>
+</body>
+</html>
