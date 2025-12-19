@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Angkon Art Gallery – Admission</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020617;--card:#0f172a;--border:#1f2937;
+  --accent:#facc15;--text:#e5e7eb;--muted:#9ca3af;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;
+  font-family:Poppins,system-ui,sans-serif;
+  background:radial-gradient(circle at top,#111827 0,#020617 60%);
+  color:var(--text);
+}
+.wrap{
+  max-width:1100px;
+  margin:24px auto;
+  padding:0 16px;
+}
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+.brand{font-weight:600;font-size:18px}
+.sub{font-size:12px;color:var(--muted)}
+.time{font-size:11px;color:var(--muted);text-align:right}
+.grid{
+  display:grid;
+  grid-template-columns:1.1fr 0.9fr;
+  gap:18px;
+}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card{
+  background:var(--card);
+  border-radius:18px;
+  border:1px solid var(--border);
+  padding:18px 16px 20px;
+}
+.card h2{
+  font-size:16px;
+  margin-bottom:4px;
+}
+.card p{
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:12px;
+}
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px 12px;
+}
+@media(max-width:640px){.form-grid{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;font-size:13px}
+label{font-size:12px;margin-bottom:4px}
+label span{color:#ef4444}
+input,select{
+  padding:9px 10px;
+  border-radius:9px;
+  border:1px solid #1f2937;
+  background:#020617;
+  color:var(--text);
+  font-size:13px;
+}
+input::placeholder{color:#6b7280}
+input:focus,select:focus{
+  outline:none;
+  border-color:var(--accent);
+}
+.small{font-size:11px;color:var(--muted);margin-top:2px}
+.row2{display:grid;grid-template-columns:0.6fr 0.8fr;gap:6px}
+.days{display:flex;flex-wrap:wrap;gap:6px}
+.days label{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;padding:4px 7px;
+  border-radius:999px;border:1px solid #1f2937;
+  cursor:pointer;
+}
+.days input{width:12px;height:12px}
+.summary{
+  margin-top:10px;
+  font-size:11px;
+  color:var(--muted);
+  padding:7px 9px;
+  border-radius:10px;
+  border:1px solid #1f2937;
+}
+.actions{
+  margin-top:10px;
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+}
+.btn{
+  border:none;
+  border-radius:999px;
+  padding:9px 16px;
+  font-size:13px;
+  cursor:pointer;
+}
+.btn-main{
+  background:linear-gradient(135deg,#facc15,#f97316);
+  color:#020617;
+}
+.btn-ghost{
+  background:transparent;
+  color:var(--muted);
+  border:1px dashed #374151;
+}
+.cert{
+  position:relative;
+  background:#f9fafb;
+  color:#111827;
+  border-radius:16px;
+  padding:18px 16px 14px;
+  font-size:12px;
+  overflow:hidden;
+}
+.cert::before{
+  content:"ANGKON";
+  position:absolute;
+  inset:-40%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  font-weight:700;
+  letter-spacing:.2em;
+  color:#111827;
+  opacity:0.05;
+  transform:rotate(-24deg);
+  pointer-events:none;
+}
+.c-inner{position:relative;z-index:1}
+.c-top{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:8px;
+}
+.c-name{font-weight:600;font-size:13px;color:#b45309}
+.c-tag{font-size:10px;text-transform:uppercase;color:#6b7280}
+.c-meta{font-size:10px;color:#6b7280;text-align:right}
+.c-stu{text-align:center;margin:6px 0 8px}
+.c-stu span{display:block}
+.c-stu-main{font-size:16px;font-weight:600}
+.c-stu-sub{font-size:10px;color:#6b7280}
+.c-row{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:4px;
+}
+.c-label{font-size:10px;color:#6b7280}
+.c-val{font-size:11px;font-weight:500}
+.c-pass{
+  margin-top:7px;
+  background:#fef3c7;
+  border-radius:10px;
+  padding:6px 8px;
+  border-left:3px solid #facc15;
+}
+.c-pass div{font-size:11px}
+.c-foot{
+  margin-top:6px;
+  font-size:10px;
+  color:#6b7280;
+  text-align:center;
+}
+.c-warn{color:#b91c1c;margin-bottom:4px}
+.wabox{margin-top:10px}
+.wabtn{
+  width:100%;
+  border:none;
+  border-radius:999px;
+  padding:9px 14px;
+  background:#22c55e;
+  color:#ecfdf5;
+  font-size:13px;
+  cursor:pointer;
+}
+.wanote{margin-top:5px;font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body
+<div class="wrap">
+  <div class="top">
+    <div>
+      <div class="brand">Angkon Art Gallery</div>
+      <div class="sub">Admission Admin Panel</div>
+    </div>
+    <div class="time">
+      <div id="tdate">--/--/----</div>
+      <div id="ttime">--:--</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- FORM -->
+    <div class="card">
+      <h2>Admission Form</h2>
+      <p>Student details, manual ID, auto validity & dates.</p>
+
+      <div class="form-grid">
+        <div class="field" style="grid-column:1/-1">
+          <label>Student Name <span>*</span></label>
+          <input id="sname" placeholder="e.g. Anik Chakraborty">
+        </div>
+
+        <div class="field">
+          <label>Admission Date</label>
+          <input id="adate" type="date">
+          <div class="small">Auto set to today.</div>
+        </div>
+
+        <div class="field">
+          <label>Student ID (Manual)</label>
+          <input id="rid" placeholder="ANG-2025-015">
+          <div class="small">Enter your own ID.</div>
+        </div>
+
+        <div class="field">
+          <label>Course Validity</label>
+          <div class="row2">
+            <input id="vnum" type="number" min="1" value="6">
+            <select id="vunit">
+              <option value="month">Month(s)</option>
+              <option value="year">Year(s)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Class Time</label>
+          <select id="ctime">
+            <option>6:00 AM – 8:00 AM</option>
+            <option>7:00 AM – 9:00 AM</option>
+            <option>8:00 AM – 10:00 AM</option>
+            <option>9:00 AM – 11:00 AM</option>
+            <option>10:00 AM – 12:00 PM</option>
+            <option>11:00 PM – 1:00 PM</option>
+                        <option>12:00 PM – 2:00 PM</option>
+            <option>1:00 PM – 3:00 PM</option>
+            <option>2:00 PM – 4:00 PM</option>
+            <option>3:00 PM – 5:00 PM</option>
+            <option>4:00 PM – 6:00 PM</option>
+            <option>6:00 PM – 8:00 PM</option>
+                       <option>7:00 PM – 9:00 PM</option>
+                                             <option>8:00 PM – 10:00 PM</option>
+          </select>
+        </div>
+
+        <div class="field" style="grid-column:1/-1">
+          <label>Class Days (Optional)</label>
+          <div class="days">
+            <label><input type="checkbox" value="Mon"><span>Mon</span></label>
+            <label><input type="checkbox" value="Tue"><span>Tue</span></label>
+            <label><input type="checkbox" value="Wed"><span>Wed</span></label>
+            <label><input type="checkbox" value="Thu"><span>Thu</span></label>
+            <label><input type="checkbox" value="Fri"><span>Fri</span></label>
+            <label><input type="checkbox" value="Sat"><span>Sat</span></label>
+            <label><input type="checkbox" value="Sun"><span>Sun</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Meet Password</label>
+          <input id="pmeet" placeholder="For online class">
+        </div>
+        <div class="field">
+          <label>Instagram Password</label>
+          <input id="pig" placeholder="For premium content">
+        </div>
+        <div class="field">
+          <label>WhatsApp Password</label>
+          <input id="pwa" placeholder="For student group">
+        </div>
+      </div>
+
+      <div class="summary" id="summary">
+        Waiting for student information…
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-ghost" type="button" id="resetBtn">Clear</button>
+        <button class="btn btn-main" type="button" id="gen">Generate Receipt</button>
+      </div>
+    </div>
+
+    <!-- CERTIFICATE -->
+    <div class="card">
+      <h2>Receipt Preview</h2>
+      <p>Manual ID, watermark, auto-computed dates.</p>
+
+      <div class="cert">
+        <div class="c-inner">
+          <div class="c-top">
+            <div>
+              <div class="c-name">Angkon Art Gallery</div>
+              <div class="c-tag">Admission receipt</div>
+            </div>
+            <div class="c-meta">
+              <div>ID: <span id="cid">---</span></div>
+              <div>Date: <span id="cad">--/--/----</span></div>
+            </div>
+          </div>
+
+          <div class="c-stu">
+            <span class="c-stu-main" id="cname">Student Name</span>
+            <span class="c-stu-sub">Officially enrolled at Angkon Art Gallery</span>
+          </div>
+
+          <div class="c-row">
+            <div>
+              <div class="c-label">Course validity</div>
+              <div class="c-val" id="cval">Not set</div>
+            </div>
+            <div>
+              <div class="c-label">Course end date</div>
+              <div class="c-val" id="cend">Not set</div>
+            </div>
+          </div>
+
+          <div class="c-row">
+            <div>
+              <div class="c-label">Class days</div>
+              <div class="c-val" id="cdays">Not set</div>
+            </div>
+            <div>
+              <div class="c-label">Class time</div>
+              <div class="c-val" id="ctime2">Not set</div>
+            </div>
+          </div>
+
+          <div class="c-pass">
+            <div>Meet: <span id="cmeet">-</span></div>
+            <div>Instagram: <span id="cig">-</span></div>
+            <div>WhatsApp: <span id="cwa">-</span></div>
+          </div>
+
+          <div class="c-foot">
+            <div class="c-warn">Please keep all access passwords strictly confidential.</div>
+            <div>Pinaki Chakraborty &amp; Hritodeep Chakraborty<br>Art Teachers, Angkon Art Gallery</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wabox">
+        <button class="wabtn" type="button" id="wbtn">Send WhatsApp Confirmation</button>
+        <div class="wanote">
+          Opens WhatsApp with pre-filled message. You just select the contact and send.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const pad = n => String(n).padStart(2,'0');
+function formatDate(d){
+  if(!d) return '--/--/----';
+  return `${pad(d.getDate())}-${pad(d.getMonth()+1)}-${d.getFullYear()}`;
+}
+function addMonths(date, months){
+  const d = new Date(date);
+  const day = d.getDate();
+  d.setMonth(d.getMonth()+months);
+  if(d.getDate()<day) d.setDate(0);
+  return d;
+}
+function addYears(date, years){
+  const d = new Date(date);
+  d.setFullYear(d.getFullYear()+years);
+  return d;
+}
+
+// clock
+const tdate = document.getElementById('tdate');
+const ttime = document.getElementById('ttime');
+function updateClock(){
+  const now = new Date();
+  tdate.textContent = now.toLocaleDateString();
+  ttime.textContent = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+}
+updateClock();
+setInterval(updateClock,60000);
+
+// inputs
+const sname = document.getElementById('sname');
+const adate = document.getElementById('adate');
+const rid   = document.getElementById('rid');
+const vnum  = document.getElementById('vnum');
+const vunit = document.getElementById('vunit');
+const ctime = document.getElementById('ctime');
+const pmeet = document.getElementById('pmeet');
+const pig   = document.getElementById('pig');
+const pwa   = document.getElementById('pwa');
+const dayInputs = document.querySelectorAll('.days input[type=checkbox]');
+const summary = document.getElementById('summary');
+
+// cert elements
+const cnameEl = document.getElementById('cname');
+const cidEl   = document.getElementById('cid');
+const cadEl   = document.getElementById('cad');
+const cvalEl  = document.getElementById('cval');
+const cendEl  = document.getElementById('cend');
+const cdaysEl = document.getElementById('cdays');
+const ctime2El= document.getElementById('ctime2');
+const cmeetEl = document.getElementById('cmeet');
+const cigEl   = document.getElementById('cig');
+const cwaEl   = document.getElementById('cwa');
+
+// auto today
+const today = new Date();
+adate.value = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+
+// summary
+function updateSummary(){
+  const name = sname.value.trim() || 'Student';
+  const num  = parseInt(vnum.value,10) || 0;
+  const unit = vunit.value === 'month' ? 'month' : 'year';
+  const val  = num>0 ? `${num} ${unit === 'month' ? (num>1?'months':'month') : (num>1?'years':'year')}` : 'no validity set';
+  const days = Array.from(dayInputs).filter(d=>d.checked).map(d=>d.value).join(', ') || 'no fixed day';
+  const time = ctime.value || 'no time';
+  summary.textContent = `${name} • ${val} • ${days} • ${time}`;
+}
+[sname,vnum,vunit,ctime,...dayInputs].forEach(el=>el.addEventListener('input',updateSummary));
+updateSummary();
+
+// generate
+const gen = document.getElementById('gen');
+const resetBtn = document.getElementById('resetBtn');
+
+gen.onclick = () => {
+  if(!sname.value.trim()){
+    alert('Please enter student name.');
+    sname.focus();return;
+  }
+  if(!rid.value.trim()){
+    alert('Please enter Student ID manually.');
+    rid.focus();return;
+  }
+
+  const startDate = adate.value ? new Date(adate.value) : new Date();
+  const num = parseInt(vnum.value,10) || 0;
+  const unit = vunit.value;
+  let endDate = null;
+  if(num>0) endDate = unit==='month' ? addMonths(startDate,num) : addYears(startDate,num);
+
+  const val = num>0
+    ? `${num} ${unit==='month' ? (num>1?'months':'month') : (num>1?'years':'year')}`
+    : 'Not set';
+  const days = Array.from(dayInputs).filter(d=>d.checked).map(d=>d.value).join(', ') || 'Not set';
+
+  cnameEl.textContent = sname.value.trim();
+  cidEl.textContent   = rid.value.trim();
+  cadEl.textContent   = formatDate(startDate);
+  cvalEl.textContent  = val;
+  cendEl.textContent  = endDate ? formatDate(endDate) : 'Not set';
+  cdaysEl.textContent = days;
+  ctime2El.textContent= ctime.value || 'Not set';
+  cmeetEl.textContent = pmeet.value || '-';
+  cigEl.textContent   = pig.value   || '-';
+  cwaEl.textContent   = pwa.value   || '-';
+
+  updateSummary();
+};
+
+// reset
+resetBtn.onclick = () => {
+  sname.value=''; vnum.value=6; vunit.value='month';
+  ctime.selectedIndex=0;
+  pmeet.value=''; pig.value=''; pwa.value='';
+  dayInputs.forEach(d=>d.checked=false);
+
+  cnameEl.textContent='Student Name';
+  cidEl.textContent='---';
+  cadEl.textContent='--/--/----';
+  cvalEl.textContent='Not set';
+  cendEl.textContent='Not set';
+  cdaysEl.textContent='Not set';
+  ctime2El.textContent='Not set';
+  cmeetEl.textContent='-';
+  cigEl.textContent='-';
+  cwaEl.textContent='-';
+
+  updateSummary();
+};
+
+// WhatsApp
+const wbtn = document.getElementById('wbtn');
+wbtn.onclick = () => {
+  const msg =
+`Dear Student,
+
+Your admission at Angkon Art Gallery has been successfully confirmed.
+
+Student Name: ${cnameEl.textContent}
+Admission ID: ${cidEl.textContent}
+Admission Date: ${cadEl.textContent}
+Class Days: ${cdaysEl.textContent}
+Class Time: ${ctime2El.textContent}
+Course Validity: ${cvalEl.textContent}
+Course End Date: ${cendEl.textContent}
+
+Your official admission receipt is attached with this message.
+All premium access passwords are printed on the receipt. Please do not share them with anyone.
+
+We look forward to your creative journey with us.
+
+Regards,
+Pinaki Chakraborty & Hritodeep Chakraborty
+Art Teachers
+Angkon Art Gallery`;
+
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+};
+</script>
+</body>
+</html>

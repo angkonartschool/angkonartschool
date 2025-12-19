@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Angkon Art Gallery – Result Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020617;--card:#0f172a;--border:#1f2937;
+  --accent:#facc15;--text:#e5e7eb;--muted:#9ca3af;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;
+  font-family:Poppins,system-ui,sans-serif;
+  background:radial-gradient(circle at top,#111827 0,#020617 60%);
+  color:var(--text);
+}
+.wrap{max-width:1100px;margin:24px auto;padding:0 16px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.brand{font-weight:600;font-size:18px}
+.sub{font-size:12px;color:var(--muted)}
+.time{font-size:11px;color:var(--muted);text-align:right}
+.grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:18px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card{
+  background:var(--card);
+  border-radius:18px;
+  border:1px solid var(--border);
+  padding:18px 16px 20px;
+}
+.card h2{font-size:16px;margin-bottom:4px}
+.card p{font-size:12px;color:var(--muted);margin-bottom:12px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
+@media(max-width:640px){.form-grid{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;font-size:13px}
+label{font-size:12px;margin-bottom:4px}
+label span{color:#ef4444}
+input,select{
+  padding:9px 10px;
+  border-radius:9px;
+  border:1px solid #1f2937;
+  background:#020617;
+  color:var(--text);
+  font-size:13px;
+}
+input::placeholder{color:#6b7280}
+input:focus,select:focus{
+  outline:none;border-color:var(--accent);
+}
+.small{font-size:11px;color:var(--muted);margin-top:2px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.summary{
+  margin-top:10px;
+  font-size:11px;
+  color:var(--muted);
+  padding:7px 9px;
+  border-radius:10px;
+  border:1px solid #1f2937;
+}
+.actions{
+  margin-top:10px;
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+}
+.btn{
+  border:none;border-radius:999px;
+  padding:9px 16px;
+  font-size:13px;
+  cursor:pointer;
+}
+.btn-main{
+  background:linear-gradient(135deg,#facc15,#f97316);
+  color:#020617;
+}
+.btn-ghost{
+  background:transparent;
+  color:var(--muted);
+  border:1px dashed #374151;
+}
+
+/* result card */
+.result{
+  position:relative;
+  background:#f9fafb;
+  color:#111827;
+  border-radius:16px;
+  padding:18px 16px 14px;
+  font-size:12px;
+  overflow:hidden;
+}
+.result::before{
+  content:"RESULT";
+  position:absolute;
+  inset:-40%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;font-weight:700;letter-spacing:.2em;
+  color:#111827;opacity:0.05;transform:rotate(-24deg);
+}
+.r-inner{position:relative;z-index:1}
+.r-top{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px}
+.r-name{font-weight:600;font-size:13px;color:#b45309}
+.r-tag{font-size:10px;text-transform:uppercase;color:#6b7280}
+.r-meta{font-size:10px;color:#6b7280;text-align:right}
+.r-stu{text-align:center;margin:6px 0 8px}
+.r-stu span{display:block}
+.r-stu-main{font-size:16px;font-weight:600}
+.r-stu-sub{font-size:10px;color:#6b7280}
+.r-row{display:flex;justify-content:space-between;gap:8px;margin-bottom:4px}
+.r-label{font-size:10px;color:#6b7280}
+.r-val{font-size:11px;font-weight:500}
+.r-marks{
+  margin-top:6px;
+  background:#eef2ff;
+  border-radius:10px;
+  padding:6px 8px;
+  border-left:3px solid #4f46e5;
+}
+.r-marks div{font-size:11px}
+.r-motivation{
+  margin-top:6px;
+  font-size:11px;
+  color:#4b5563;
+  font-style:italic;
+}
+.r-foot{margin-top:6px;font-size:10px;color:#6b7280;text-align:center}
+.wabox{margin-top:10px}
+.wabtn{
+  width:100%;
+  border:none;border-radius:999px;
+  padding:9px 14px;
+  background:#22c55e;
+  color:#ecfdf5;
+  font-size:13px;
+  cursor:pointer;
+}
+.wanote{margin-top:5px;font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <div class="brand">Angkon Art Gallery</div>
+      <div class="sub">Student Result Panel</div>
+    </div>
+    <div class="time">
+      <div id="tdate">--/--/----</div>
+      <div id="ttime">--:--</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- LEFT: RESULT FORM -->
+    <div class="card">
+      <h2>Result Entry</h2>
+      <p>Select old ID, enter marks, rest auto.</p>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Student ID <span>*</span></label>
+          <select id="sid">
+            <option value="">Select ID</option>
+          </select>
+          <div class="small">Predefined IDs: ANG-001 to ANG-050.</div>
+        </div>
+
+        <div class="field">
+          <label>Student Name <span>*</span></label>
+          <input id="sname" placeholder="e.g. Anik Chakraborty">
+        </div>
+
+        <div class="field">
+          <label>Class</label>
+          <input id="sclass" placeholder="e.g. Class 5, Beginner Batch">
+        </div>
+
+        <div class="field">
+          <label>Result Date</label>
+          <input id="rdate" type="date">
+        </div>
+
+        <div class="field">
+          <label>Art Subject / Type</label>
+          <input id="stype" placeholder="e.g. Portrait, Landscape, Cartoon">
+        </div>
+
+        <div class="field">
+          <label>Artwork Topic</label>
+          <input id="topic" placeholder="e.g. Sunset Village Scene">
+        </div>
+
+        <div class="field">
+          <label>Marks Obtained</label>
+          <input id="marks" type="number" min="0" max="100" placeholder="e.g. 88">
+          <div class="small">Out of 100.</div>
+        </div>
+
+        <div class="field">
+          <label>Maximum Marks</label>
+          <input id="maxmarks" type="number" min="1" value="100">
+        </div>
+      </div>
+
+      <div class="summary" id="summary">
+        Waiting for result details…
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-ghost" type="button" id="resetBtn">Clear</button>
+        <button class="btn btn-main" type="button" id="gen">Generate Result</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: RESULT CARD -->
+    <div class="card">
+      <h2>Result Preview</h2>
+      <p>Automatic percentage & motivation line.</p>
+
+      <div class="result">
+        <div class="r-inner">
+          <div class="r-top">
+            <div>
+              <div class="r-name">Angkon Art Gallery</div>
+              <div class="r-tag">Art performance result</div>
+            </div>
+            <div class="r-meta">
+              <div>ID: <span id="cid">---</span></div>
+              <div>Date: <span id="cdate">--/--/----</span></div>
+            </div>
+          </div>
+
+          <div class="r-stu">
+            <span class="r-stu-main" id="cname">Student Name</span>
+            <span class="r-stu-sub" id="cclass">Class</span>
+          </div>
+
+          <div class="r-row">
+            <div>
+              <div class="r-label">Subject / Type</div>
+              <div class="r-val" id="ctype">Not set</div>
+            </div>
+            <div>
+              <div class="r-label">Artwork Topic</div>
+              <div class="r-val" id="ctopic">Not set</div>
+            </div>
+          </div>
+
+          <div class="r-marks">
+            <div>Marks: <span id="cmarks">0</span> / <span id="cmax">100</span></div>
+            <div>Percentage: <span id="cpercent">0%</span></div>
+            <div>Result Status: <span id="cstatus">Pending</span></div>
+          </div>
+
+          <div class="r-motivation" id="cmotive">
+            A personalised motivation line will appear here after generating result.
+          </div>
+
+          <div class="r-foot">
+            Guided by: Pinaki Chakraborty &amp; Hritodeep Chakraborty<br>
+            Art Teachers, Angkon Art Gallery
+          </div>
+        </div>
+      </div>
+
+      <div class="wabox">
+        <button class="wabtn" type="button" id="wbtn">Send Result via WhatsApp</button>
+        <div class="wanote">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// helpers
+const pad = n => String(n).padStart(2,'0');
+function formatDate(d){
+  if(!d) return '--/--/----';
+  return `${pad(d.getDate())}-${pad(d.getMonth()+1)}-${d.getFullYear()}`;
+}
+// clock
+const tdate = document.getElementById('tdate');
+const ttime = document.getElementById('ttime');
+function updateClock(){
+  const now = new Date();
+  tdate.textContent = now.toLocaleDateString();
+  ttime.textContent = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+}
+updateClock();
+setInterval(updateClock,60000);
+
+// ID dropdown fill ANG-001 to ANG-050
+const sid = document.getElementById('sid');
+for(let i=1;i<=50;i++){
+  const opt = document.createElement('option');
+  opt.value = `ANG-${String(i).padStart(3,'0')}`;
+  opt.textContent = opt.value;
+  sid.appendChild(opt);
+} // [web:100][web:112]
+
+// inputs
+const sname = document.getElementById('sname');
+const sclass = document.getElementById('sclass');
+const rdate = document.getElementById('rdate');
+const stype = document.getElementById('stype');
+const topic = document.getElementById('topic');
+const marks = document.getElementById('marks');
+const maxmarks = document.getElementById('maxmarks');
+const summary = document.getElementById('summary');
+
+// preview
+const cidEl = document.getElementById('cid');
+const cdateEl = document.getElementById('cdate');
+const cnameEl = document.getElementById('cname');
+const cclassEl= document.getElementById('cclass');
+const ctypeEl = document.getElementById('ctype');
+const ctopicEl= document.getElementById('ctopic');
+const cmarksEl= document.getElementById('cmarks');
+const cmaxEl  = document.getElementById('cmax');
+const cpercentEl=document.getElementById('cpercent');
+const cstatusEl = document.getElementById('cstatus');
+const cmotiveEl = document.getElementById('cmotive');
+
+// auto result date today
+const today = new Date();
+rdate.value = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+
+// simple motivation generator based on percentage
+function getMotivation(p){
+  if(isNaN(p)) return 'Keep practicing, every stroke makes you better.';
+  if(p>=90) return 'Outstanding performance! Your dedication and creativity shine through your artwork.';
+  if(p>=75) return 'Great work! You are progressing beautifully, keep pushing your artistic limits.';
+  if(p>=60) return 'Good effort! With a bit more practice, your art will reach the next level.';
+  if(p>=40) return 'You are improving. Focus on basics and keep drawing regularly.';
+  return 'Do not be discouraged. Every great artist started from small steps. Keep practicing with confidence.';
+} // [web:101][web:113]
+
+// live summary
+function updateSummary(){
+  const idTxt = sid.value || 'No ID';
+  const name = sname.value.trim() || 'Student';
+  const m = parseFloat(marks.value) || 0;
+  const mx = parseFloat(maxmarks.value) || 100;
+  const pct = mx>0 ? Math.round((m*100)/mx) : 0; // [web:96][web:114]
+  summary.textContent = `${name} • ID: ${idTxt} • ${m}/${mx} (${pct}%)`;
+}
+[sid,sname,marks,maxmarks].forEach(el=>el.addEventListener('input',updateSummary));
+updateSummary();
+
+// generate
+const gen = document.getElementById('gen');
+const resetBtn = document.getElementById('resetBtn');
+
+gen.onclick = () => {
+  if(!sid.value){
+    alert('Please select Student ID.');
+    sid.focus();return;
+  }
+  if(!sname.value.trim()){
+    alert('Please enter student name.');
+    sname.focus();return;
+  }
+
+  const m = parseFloat(marks.value) || 0;
+  const mx = parseFloat(maxmarks.value) || 100;
+  const pct = mx>0 ? Math.round((m*100)/mx) : 0;
+  const status = pct>=40 ? 'Pass' : 'Needs Improvement';
+
+  const dateObj = rdate.value ? new Date(rdate.value) : new Date();
+
+  cidEl.textContent = sid.value;
+  cdateEl.textContent = formatDate(dateObj);
+  cnameEl.textContent = sname.value.trim();
+  cclassEl.textContent = sclass.value.trim() || 'Not specified';
+  ctypeEl.textContent = stype.value.trim() || 'Not set';
+  ctopicEl.textContent = topic.value.trim() || 'Not set';
+  cmarksEl.textContent = m.toString();
+  cmaxEl.textContent = mx.toString();
+  cpercentEl.textContent = `${pct}%`;
+  cstatusEl.textContent = status;
+  cmotiveEl.textContent = getMotivation(pct);
+
+  updateSummary();
+};
+
+// reset
+resetBtn.onclick = () => {
+  sid.value='';
+  sname.value='';sclass.value='';stype.value='';topic.value='';
+  marks.value='';maxmarks.value='100';
+  rdate.value = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+
+  cidEl.textContent='---';
+  cdateEl.textContent='--/--/----';
+  cnameEl.textContent='Student Name';
+  cclassEl.textContent='Class';
+  ctypeEl.textContent='Not set';
+  ctopicEl.textContent='Not set';
+  cmarksEl.textContent='0';
+  cmaxEl.textContent='100';
+  cpercentEl.textContent='0%';
+  cstatusEl.textContent='Pending';
+  cmotiveEl.textContent='A personalised motivation line will appear here after generating result.';
+
+  updateSummary();
+};
+
+// WhatsApp
+const wbtn = document.getElementById('wbtn');
+wbtn.onclick = () => {
+  const msg =
+`Dear Student / Guardian,
+
+Here is the official art performance result from Angkon Art Gallery.
+
+Student Name: ${cnameEl.textContent}
+Student ID: ${cidEl.textContent}
+Class: ${cclassEl.textContent}
+Result Date: ${cdateEl.textContent}
+
+Art Subject / Type: ${ctypeEl.textContent}
+Artwork Topic: ${ctopicEl.textContent}
+
+Marks Obtained: ${cmarksEl.textContent} / ${cmaxEl.textContent}
+Percentage: ${cpercentEl.textContent}
+Result Status: ${cstatusEl.textContent}
+
+Teacher's Note:
+${cmotiveEl.textContent}
+
+We appreciate the creative effort and encourage continuous practice.
+
+Regards,
+Pinaki Chakraborty & Hritodeep Chakraborty
+Art Teachers
+Angkon Art Gallery`;
+
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+};
+</script>
+</body>
+</html>
